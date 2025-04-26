@@ -1,3 +1,6 @@
+"use client"; // if you're using App Router (required for hooks)
+
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface ContactUsSectionProps {
@@ -5,8 +8,40 @@ interface ContactUsSectionProps {
 }
 
 const ContactUsSection: React.FC<ContactUsSectionProps> = ({ id }) => {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [loading, setLoading] = useState(false);
+
   const inputClasses = "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent";
-  
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/send-enquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        alert('Thank you for your enquiry!');
+        setFormData({ name: '', email: '', message: '' }); // clear form
+      } else {
+        alert('Failed to send enquiry. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Something went wrong.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section id={id} className="py-16 bg-[var(--background-primary)]">
       <div className="container mx-auto px-4">
@@ -23,8 +58,9 @@ const ContactUsSection: React.FC<ContactUsSectionProps> = ({ id }) => {
           <p className="text-[var(--text-secondary)] text-lg text-center mb-8">
             Have questions or want to learn more? We'd love to hear from you!
           </p>
-          
+
           <motion.form
+            onSubmit={handleSubmit}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -35,47 +71,57 @@ const ContactUsSection: React.FC<ContactUsSectionProps> = ({ id }) => {
               <label htmlFor="name" className="block text-[var(--text-primary)] mb-2">
                 Name
               </label>
-              <input 
-                type="text" 
-                id="name" 
-                name="name" 
+              <input
+                type="text"
+                id="name"
+                name="name"
                 className={inputClasses}
                 placeholder="Your name"
+                value={formData.name}
+                onChange={handleChange}
+                required
               />
             </div>
-            
+
             <div>
               <label htmlFor="email" className="block text-[var(--text-primary)] mb-2">
                 Email
               </label>
-              <input 
-                type="email" 
-                id="email" 
-                name="email" 
+              <input
+                type="email"
+                id="email"
+                name="email"
                 className={inputClasses}
                 placeholder="Your email address"
+                value={formData.email}
+                onChange={handleChange}
+                required
               />
             </div>
-            
+
             <div>
               <label htmlFor="message" className="block text-[var(--text-primary)] mb-2">
                 Message
               </label>
-              <textarea 
-                id="message" 
-                name="message" 
-                rows={5} 
+              <textarea
+                id="message"
+                name="message"
+                rows={5}
                 className={inputClasses}
                 placeholder="How can we help you?"
-              ></textarea>
+                value={formData.message}
+                onChange={handleChange}
+                required
+              />
             </div>
-            
+
             <div className="flex justify-center">
-              <button 
-                type="submit" 
+              <button
+                type="submit"
+                disabled={loading}
                 className="px-8 py-3 bg-[var(--color-accent)] text-white font-semibold rounded-full hover:bg-opacity-90 transition-colors duration-300 shadow-md"
               >
-                Submit
+                {loading ? 'Sending...' : 'Submit'}
               </button>
             </div>
           </motion.form>
