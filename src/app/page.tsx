@@ -8,6 +8,8 @@ import TestimonialsSection from '../components/home/TestimonialsSection';
 import AboutUsSection from '../components/home/AboutUsSection';
 import MeetOurCEOSection from '../components/home/MeetOurCEOSection';
 import ContactUsSection from '../components/home/ContactUsSection';
+import OurMotto from '@/components/home/OurMotto';
+import ExperienceSection from '@/components/home/ExperienceSection';
 
 export default function Home() {
   return (
@@ -20,6 +22,8 @@ export default function Home() {
         <TestimonialsSection />
         <AboutUsSection />
         <MeetOurCEOSection />
+        <OurMotto/>
+        <ExperienceSection/>
         <ContactUsSection id="contact-us" />
       </main>
       <Footer />
