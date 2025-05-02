@@ -61,7 +61,7 @@ const AboutUsSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-[var(--background-secondary)]">
+    <section className="pt-8 bg-[var(--background-secondary)]">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

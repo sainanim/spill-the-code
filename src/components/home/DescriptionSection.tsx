@@ -55,9 +55,9 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({ id }) => {
   };
 
   return (
-    <section id={id} className="py-16 bg-white">
+    <section id={id} className="py-10 bg-white">
       <div className="container mx-auto px-4">
-        <motion.div 
+        {/* <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -72,7 +72,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({ id }) => {
             Our innovative approach to teaching AI, coding, and robotics is designed to make complex concepts accessible, 
             engaging, and fun for students aged 8-22.
           </p>
-        </motion.div>
+        </motion.div> */}
 
         {/* Side-by-side cards container */}
         <div className="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto">
