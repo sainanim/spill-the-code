@@ -6,7 +6,7 @@ import DescriptionSection from '../components/home/DescriptionSection';
 import WhatMakesUsUniqueSection from '../components/home/WhatMakesUsUniqueSection';
 import TestimonialsSection from '../components/home/TestimonialsSection';
 import AboutUsSection from '../components/home/AboutUsSection';
-import MeetOurCEOSection from '../components/home/MeetOurCEOSection';
+import MeetOurTeamSection from '../components/team/MeetOurTeamSection';
 import ContactUsSection from '../components/home/ContactUsSection';
 import OurMotto from '@/components/home/OurMotto';
 import ExperienceSection from '@/components/home/ExperienceSection';
@@ -21,7 +21,7 @@ export default function Home() {
         <DescriptionSection id="about-us" />
         <WhatMakesUsUniqueSection />
         {/* <TestimonialsSection /> */}
-        <MeetOurCEOSection />
+        <MeetOurTeamSection />
         <OurMotto/>
         {/* <ExperienceSection/> */}
         <ContactUsSection id="contact-us" />
