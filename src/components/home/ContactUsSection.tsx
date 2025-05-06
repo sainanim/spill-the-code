@@ -1,7 +1,8 @@
-"use client"; // if you're using App Router (required for hooks)
+"use client";
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { FaInstagram, FaFacebook, FaLinkedin } from 'react-icons/fa';
 
 interface ContactUsSectionProps {
   id?: string;
@@ -127,6 +128,23 @@ const ContactUsSection: React.FC<ContactUsSectionProps> = ({ id }) => {
           </motion.form>
         </motion.div>
       </div>
+      <motion.div
+            className="flex justify-center space-x-8 mt-8"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-indigo-600 transition duration-300">
+                <FaInstagram className="w-10 h-10" />
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-indigo-600 transition duration-300">
+                <FaFacebook className="w-10 h-10" />
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-indigo-600 transition duration-300">
+                <FaLinkedin className="w-10 h-10" />
+            </a>
+        </motion.div>
     </section>
   );
 };
