@@ -1,7 +1,11 @@
 "use client";
 import { motion } from 'framer-motion';
 
-const AboutUsSection = () => {
+interface AboutUsSectionProps {
+  id?: string;
+}
+
+const AboutUsSection: React.FC<AboutUsSectionProps> = ({ id }) => {
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -61,7 +65,7 @@ const AboutUsSection = () => {
   ];
 
   return (
-    <section className="pt-8 bg-[var(--background-secondary)]">
+    <section id={id} className="pt-8 bg-[var(--background-secondary)]">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

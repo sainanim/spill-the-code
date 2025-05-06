@@ -1,11 +1,7 @@
 "use client";
 import { motion } from 'framer-motion';
 
-interface DescriptionSectionProps {
-  id?: string;
-}
-
-const DescriptionSection: React.FC<DescriptionSectionProps> = ({ id }) => {
+const DescriptionSection = () => {
   // Card animation variants
   const leftCardVariant = {
     hidden: { opacity: 0, x: -100 },
@@ -55,7 +51,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({ id }) => {
   };
 
   return (
-    <section id={id} className="py-10 bg-white">
+    <section className="py-10 bg-white">
       <div className="container mx-auto px-4">
         {/* <motion.div 
           initial={{ opacity: 0, y: 30 }}
@@ -161,6 +157,40 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({ id }) => {
           </motion.div>
         </div>
       </div>
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+        className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto p-6 sm:p-8 md:p-10 bg-[#E0F2F7] rounded-xl shadow-lg my-10"
+    >
+        <h2 className="text-2xl sm:text-3xl font-bold text-[#1E293B] mb-4 text-center">
+            Meet the Minds Behind Our Magic
+        </h2>
+
+        <p className="text-[#4B5563] mb-8 text-center text-sm sm:text-base max-w-md">
+            We're a collective of passionate creators, innovators, and problem-solvers.
+            Discover the people driving our vision forward.
+        </p>
+
+        <motion.button
+            whileHover={{
+                scale: 1.05,
+                backgroundColor: "#FF9800",
+                color: "#FAF9F6",
+                boxShadow: "0px 8px 20px rgba(255, 152, 0, 0.35)",
+            }}
+            whileTap={{
+                scale: 0.95,
+                boxShadow: "0px 4px 10px rgba(255, 152, 0, 0.25)",
+            }}
+            transition={{ type: "spring", stiffness: 400, damping: 15 }}
+            className="px-6 py-3 bg-[#1976D2] text-[#FAF9F6] font-semibold rounded-full shadow-md text-base sm:text-lg"
+            onClick={() => window.location.href = '/team'}
+        >
+            Click here to learn more about our team
+        </motion.button>
+    </motion.div>
     </section>
   );
 };

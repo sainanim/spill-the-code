@@ -17,11 +17,11 @@ export default function Home() {
       <Header />
       <main className="pt-2"> {/* Added padding-top to account for fixed header */}
         <HeroSection />
-        <AboutUsSection />
-        <DescriptionSection id="about-us" />
+        <AboutUsSection id="about-us"/>
+        <DescriptionSection />
         <WhatMakesUsUniqueSection />
         {/* <TestimonialsSection /> */}
-        <MeetOurTeamSection />
+        {/* <MeetOurTeamSection /> */}
         <OurMotto/>
         {/* <ExperienceSection/> */}
         <ContactUsSection id="contact-us" />
