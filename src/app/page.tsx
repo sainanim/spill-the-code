@@ -14,7 +14,7 @@ import ExperienceSection from '@/components/home/ExperienceSection';
 export default function Home() {
   return (
     <>
-      <Header />
+      
       <main className="pt-2"> {/* Added padding-top to account for fixed header */}
         <HeroSection />
         <AboutUsSection id="about-us"/>
@@ -26,7 +26,7 @@ export default function Home() {
         {/* <ExperienceSection/> */}
         <ContactUsSection id="contact-us" />
       </main>
-      <Footer />
+      
     </>
   );
 }

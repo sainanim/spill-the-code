@@ -106,9 +106,7 @@ const AboutUsSection: React.FC<AboutUsSectionProps> = ({ id }) => {
                 variants={textItem}
                 className="text-[var(--text-primary)] text-lg leading-relaxed mb-6"
               >
-                We believe that every child has the potential to become a creator, innovator, and problem-solver in the 
-                digital age. Our team of passionate educators and industry professionals is committed to nurturing this 
-                potential through innovative teaching methods and a curriculum that evolves with technology.
+                We believe that every child has the potential to become a creator, innovator, and problem-solver in the digital age. Our team of passionate educators and industry professionals is committed to nurturing this potential through innovative teaching methods and a curriculum that evolves with technology. To ensure accessibility and flexibility, we offer multiple modes of teaching—including online, hybrid, and in-person learning—tailored to suit the diverse needs of our students.
               </motion.p>
             </motion.div>
             
