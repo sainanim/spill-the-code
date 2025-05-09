@@ -49,7 +49,7 @@ const OurMotto: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-b from-blue-50 to-white overflow-hidden relative">
+    <section className="py-16 bg-gradient-to-b from-[#FAF9F6] to-white overflow-hidden relative">
       {/* Animated code symbols in background */}
       {codeSymbols.map((symbol, index) => (
         <motion.div
@@ -67,7 +67,7 @@ const OurMotto: React.FC = () => {
             repeat: Infinity,
             repeatType: "reverse"
           }}
-          className={`absolute ${symbol.size} text-blue-300 font-mono`}
+          className={`absolute ${symbol.size} text-[#1976D2] font-mono`}
           style={{ 
             top: symbol.top,
             left: symbol.left,
@@ -89,14 +89,14 @@ const OurMotto: React.FC = () => {
             className="text-center mb-12"
           >
             <h2 className="inline-flex items-center text-3xl sm:text-4xl font-bold">
-              <span className="text-blue-400 font-mono mr-2">&lt;</span>
-              <span className="text-blue-600">Our Motto</span>
-              <span className="text-blue-400 font-mono ml-2">/&gt;</span>
+              <span className="text-[#FFC000] font-mono mr-2">&lt;</span>
+              <span className="text-[#1976D2]">Our Motto</span>
+              <span className="text-[#FFC000] font-mono ml-2">/&gt;</span>
             </h2>
           </motion.div>
           
           {/* Motto lines with code-like animation */}
-          <div className="bg-blue-600 rounded-xl shadow-lg p-8 mb-10">
+          <div className="bg-[#1976D2] rounded-xl shadow-lg p-8 mb-10 border-r-4 border-l-4 border-[#FFC000]">
             <motion.div
               variants={containerVariants}
               initial="hidden"
@@ -106,7 +106,7 @@ const OurMotto: React.FC = () => {
               <motion.div variants={wordVariants} className="text-2xl sm:text-4xl font-bold font-mono text-white">
                 {mottoLine1}
               </motion.div>
-              <motion.div variants={wordVariants} className="text-2xl sm:text-4xl font-bold font-mono text-blue-200">
+              <motion.div variants={wordVariants} className="text-2xl sm:text-4xl font-bold font-mono text-[#FFC000]">
                 {mottoLine2}
               </motion.div>
               <motion.div variants={wordVariants} className="text-2xl sm:text-4xl font-bold font-mono text-white">
@@ -120,9 +120,9 @@ const OurMotto: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.8, duration: 0.5 }}
-            className="bg-blue-100 rounded-lg p-6 border-l-4 border-blue-500"
+            className="bg-[#E0F2F7] rounded-lg p-6 border-l-4 border-[#FFC000]"
           >
-            <p className="text-blue-800 text-lg">
+            <p className="text-[#1E293B] text-lg">
               We believe education should not be about memorizing facts, it should be about lighting a fire. 
               At our academy, we want every student to see problems as puzzles, failures as experiments, 
               and learning as a lifelong adventure.
@@ -136,12 +136,12 @@ const OurMotto: React.FC = () => {
             transition={{ delay: 1.2, duration: 0.5 }}
             className="mt-12 text-center"
           >
-            <div className="inline-block font-mono text-blue-400 text-sm sm:text-base">
+            <div className="inline-block font-mono text-[#1976D2] text-sm sm:text-base">
               <span className="block text-left">
-                <span className="text-blue-300">function</span> <span className="text-blue-500">createFuture</span>() &#123;
+                <span className="text-[#FFC000]">function</span> <span className="text-[#1976D2]">createFuture</span>() &#123;
               </span>
               <span className="block text-left pl-6">
-                <span className="text-blue-300">return</span> <span className="text-blue-500">Academy</span>.<span className="text-blue-400">students</span>.map(<span className="text-blue-300">student</span> =&gt; <span className="text-blue-300">student</span>.<span className="text-blue-400">unleashPotential</span>());
+                <span className="text-[#FFC000]">return</span> <span className="text-[#1976D2]">Academy</span>.<span className="text-[#1976D2]">students</span>.map(<span className="text-[#FFC000]">student</span> =&gt; <span className="text-[#FFC000]">student</span>.<span className="text-[#1976D2]">unleashPotential</span>());
               </span>
               <span className="block text-left">
                 &#125;

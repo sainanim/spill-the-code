@@ -1,27 +1,62 @@
 "use client";
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
 const DescriptionSection = () => {
-  // Card animation variants
+  // Add state to track viewport width
+  const [isMobile, setIsMobile] = useState(false);
+  const [isSmallMobile, setIsSmallMobile] = useState(false);
+  
+  // Effect to handle responsive behavior
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsSmallMobile(window.innerWidth < 360); // Extra small screens
+    };
+    
+    // Set initial state
+    handleResize();
+    
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Card animation variants - adjust based on viewport
   const leftCardVariant = {
-    hidden: { opacity: 0, x: -100 },
+    hidden: { opacity: 0, x: isMobile ? -30 : -100 },
     visible: { 
       opacity: 1, 
       x: 0,
       transition: { 
-        duration: 0.8, 
+        duration: isMobile ? 0.5 : 0.8, 
         ease: "easeOut"
       }
     }
   };
 
   const rightCardVariant = {
-    hidden: { opacity: 0, x: 100 },
+    hidden: { opacity: 0, x: isMobile ? 30 : 100 },
     visible: { 
       opacity: 1, 
       x: 0,
       transition: { 
-        duration: 0.8, 
+        duration: isMobile ? 0.5 : 0.8, 
+        ease: "easeOut"
+      }
+    }
+  };
+
+  // For mobile, use y translation instead of x for better visual flow
+  const mobileCardVariant = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.5, 
         ease: "easeOut"
       }
     }
@@ -33,59 +68,42 @@ const DescriptionSection = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3
+        staggerChildren: 0.12,
+        delayChildren: 0.2
       }
     }
   };
 
   const listItem = {
-    hidden: { opacity: 0, x: -20 },
+    hidden: { opacity: 0, x: -15 },
     visible: { 
       opacity: 1, 
       x: 0,
       transition: { 
-        duration: 0.5 
+        duration: 0.4 
       }
     }
   };
 
   return (
-    <section className="py-10 bg-white">
-      <div className="container mx-auto px-4">
-        {/* <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="max-w-4xl mx-auto mb-16 text-center"
-        >
-          <h2 className="text-3xl sm:text-4xl font-bold text-[var(--color-primary)] mb-8">
-            About Our Academy
-          </h2>
-          <p className="text-[var(--text-primary)] text-lg leading-relaxed">
-            At the Academy of Intelligent Minds, we believe in nurturing the natural curiosity and creativity of young minds. 
-            Our innovative approach to teaching AI, coding, and robotics is designed to make complex concepts accessible, 
-            engaging, and fun for students aged 8-22.
-          </p>
-        </motion.div> */}
-
-        {/* Side-by-side cards container */}
-        <div className="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto">
+    <section className="py-6 sm:py-8 bg-[#FAF9F6] w-full overflow-x-hidden">
+      <div className="container mx-auto px-4 sm:px-6">
+        {/* Side-by-side cards container - stacks on mobile */}
+        <div className="flex flex-col md:flex-row gap-5 lg:gap-8 max-w-6xl mx-auto">
           {/* Who we are section - Left card */}
           <motion.div
-            variants={leftCardVariant}
+            variants={isMobile ? mobileCardVariant : leftCardVariant}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
-            className="flex-1"
+            viewport={{ once: true, margin: "-20px" }}
+            className="w-full md:w-1/2 mb-5 md:mb-0"
           >
-            <div className="h-full bg-gradient-to-br from-white to-blue-50 shadow-lg rounded-lg overflow-hidden p-8">
-              <h2 className="text-2xl lg:text-3xl font-bold text-[var(--color-primary)] mb-6">
-                Who We Are
+            <div className="h-full w-full bg-gradient-to-br from-[#FAF9F6] to-[#E0F2F7] border-l-4 border-[#FFC000] shadow-lg rounded-lg overflow-hidden p-4 sm:p-5 lg:p-6">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-[#1976D2] mb-3">
+                <span className="border-b-2 border-[#FFC000] pb-1">Who We Are</span>
               </h2>
               
-              <p className="text-[var(--text-primary)] text-base lg:text-lg mb-6">
+              <p className="text-[#1E293B] text-sm lg:text-base mb-3">
                 We are dreamers, doers, and builders of the future. Our academy was born out of a simple belief: that every child deserves the opportunity to explore the world of technology.
               </p>
               
@@ -94,19 +112,19 @@ const DescriptionSection = () => {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="space-y-4"
+                className="space-y-2"
               >
                 <motion.li variants={listItem} className="flex items-start">
-                  <span className="inline-flex items-center justify-center bg-[var(--color-primary)] text-white rounded-full w-6 h-6 mr-3 mt-1 flex-shrink-0">•</span>
-                  <span className="text-[var(--text-primary)]">A community fostering curiosity and creativity</span>
+                  <span className="inline-flex items-center justify-center bg-[#FFC000] text-[#1E293B] rounded-full w-4 h-4 sm:w-5 sm:h-5 mr-2 mt-0.5 flex-shrink-0 text-xs">•</span>
+                  <span className="text-[#1E293B] text-xs sm:text-sm">A community fostering curiosity and creativity</span>
                 </motion.li>
                 <motion.li variants={listItem} className="flex items-start">
-                  <span className="inline-flex items-center justify-center bg-[var(--color-primary)] text-white rounded-full w-6 h-6 mr-3 mt-1 flex-shrink-0">•</span>
-                  <span className="text-[var(--text-primary)]">Team of passionate educators and engineers</span>
+                  <span className="inline-flex items-center justify-center bg-[#1976D2] text-[#FAF9F6] rounded-full w-4 h-4 sm:w-5 sm:h-5 mr-2 mt-0.5 flex-shrink-0 text-xs">•</span>
+                  <span className="text-[#1E293B] text-xs sm:text-sm">Team of passionate educators and engineers</span>
                 </motion.li>
                 <motion.li variants={listItem} className="flex items-start">
-                  <span className="inline-flex items-center justify-center bg-[var(--color-primary)] text-white rounded-full w-6 h-6 mr-3 mt-1 flex-shrink-0">•</span>
-                  <span className="text-[var(--text-primary)]">Personalized attention for every student</span>
+                  <span className="inline-flex items-center justify-center bg-[#1976D2] text-[#FAF9F6] rounded-full w-4 h-4 sm:w-5 sm:h-5 mr-2 mt-0.5 flex-shrink-0 text-xs">•</span>
+                  <span className="text-[#1E293B] text-xs sm:text-sm">Personalized attention for every student</span>
                 </motion.li>
               </motion.ul>
             </div>
@@ -114,18 +132,18 @@ const DescriptionSection = () => {
 
           {/* What we do section - Right card */}
           <motion.div
-            variants={rightCardVariant}
+            variants={isMobile ? mobileCardVariant : rightCardVariant}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
-            className="flex-1"
+            viewport={{ once: true, margin: "-20px" }}
+            className="w-full md:w-1/2"
           >
-            <div className="h-full bg-gradient-to-bl from-white to-purple-50 shadow-lg rounded-lg overflow-hidden p-8">
-              <h2 className="text-2xl lg:text-3xl font-bold text-[var(--color-primary)] mb-6">
-                What We Do
+            <div className="h-full w-full bg-gradient-to-bl from-[#FAF9F6] to-[#E0F2F7] border-r-4 border-[#FFC000] shadow-lg rounded-lg overflow-hidden p-4 sm:p-5 lg:p-6">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-[#1976D2] mb-3">
+                <span className="border-b-2 border-[#FFC000] pb-1">What We Do</span>
               </h2>
               
-              <p className="text-[var(--text-primary)] text-base lg:text-lg mb-6">
+              <p className="text-[#1E293B] text-sm lg:text-base mb-3">
                 We provide a vibrant, interactive learning experience that brings technology to life for students aged 8 to 22.
               </p>
               
@@ -134,23 +152,23 @@ const DescriptionSection = () => {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="space-y-4"
+                className="space-y-2"
               >
                 <motion.li variants={listItem} className="flex items-start">
-                  <span className="inline-flex items-center justify-center bg-[var(--color-primary)] text-white rounded-full w-6 h-6 mr-3 mt-1 flex-shrink-0">•</span>
-                  <span className="text-[var(--text-primary)]">Hands-on courses in AI, Coding, and Robotics</span>
+                  <span className="inline-flex items-center justify-center bg-[#1976D2] text-[#FAF9F6] rounded-full w-4 h-4 sm:w-5 sm:h-5 mr-2 mt-0.5 flex-shrink-0 text-xs">•</span>
+                  <span className="text-[#1E293B] text-xs sm:text-sm">Hands-on courses in AI, Coding, and Robotics</span>
                 </motion.li>
                 <motion.li variants={listItem} className="flex items-start">
-                  <span className="inline-flex items-center justify-center bg-[var(--color-primary)] text-white rounded-full w-6 h-6 mr-3 mt-1 flex-shrink-0">•</span>
-                  <span className="text-[var(--text-primary)]">Project-based learning with real applications</span>
+                  <span className="inline-flex items-center justify-center bg-[#1976D2] text-[#FAF9F6] rounded-full w-4 h-4 sm:w-5 sm:h-5 mr-2 mt-0.5 flex-shrink-0 text-xs">•</span>
+                  <span className="text-[#1E293B] text-xs sm:text-sm">Project-based learning with real applications</span>
                 </motion.li>
                 <motion.li variants={listItem} className="flex items-start">
-                  <span className="inline-flex items-center justify-center bg-[var(--color-primary)] text-white rounded-full w-6 h-6 mr-3 mt-1 flex-shrink-0">•</span>
-                  <span className="text-[var(--text-primary)]">Digital tools and logic-based challenges</span>
+                  <span className="inline-flex items-center justify-center bg-[#1976D2] text-[#FAF9F6] rounded-full w-4 h-4 sm:w-5 sm:h-5 mr-2 mt-0.5 flex-shrink-0 text-xs">•</span>
+                  <span className="text-[#1E293B] text-xs sm:text-sm">Digital tools and logic-based challenges</span>
                 </motion.li>
                 <motion.li variants={listItem} className="flex items-start">
-                  <span className="inline-flex items-center justify-center bg-[var(--color-primary)] text-white rounded-full w-6 h-6 mr-3 mt-1 flex-shrink-0">•</span>
-                  <span className="text-[var(--text-primary)]">Programs for all skill levels</span>
+                  <span className="inline-flex items-center justify-center bg-[#1976D2] text-[#FAF9F6] rounded-full w-4 h-4 sm:w-5 sm:h-5 mr-2 mt-0.5 flex-shrink-0 text-xs">•</span>
+                  <span className="text-[#1E293B] text-xs sm:text-sm">Programs for all skill levels</span>
                 </motion.li>
               </motion.ul>
             </div>
@@ -158,39 +176,39 @@ const DescriptionSection = () => {
         </div>
       </div>
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
-        className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto p-6 sm:p-8 md:p-10 bg-[#E0F2F7] rounded-xl shadow-lg my-10"
-    >
-        <h2 className="text-2xl sm:text-3xl font-bold text-[#1E293B] mb-4 text-center">
+        viewport={{ once: true, margin: "-20px" }}
+        transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+        className="flex flex-col items-center justify-center w-full max-w-xl mx-auto p-4 sm:p-5 md:p-6 bg-[#E0F2F7] rounded-lg shadow-md my-5 sm:my-8 mx-3 sm:mx-auto border-t-4 border-[#FFC000]"
+      >
+        <h2 className="text-lg sm:text-xl font-bold text-[#1E293B] mb-2 sm:mb-3 text-center">
             Meet the Minds Behind Our Magic
         </h2>
 
-        <p className="text-[#4B5563] mb-8 text-center text-sm sm:text-base max-w-md">
+        <p className="text-[#4B5563] mb-4 text-center text-xs sm:text-sm max-w-md">
             We're a collective of passionate creators, innovators, and problem-solvers.
             Discover the people driving our vision forward.
         </p>
 
         <motion.button
             whileHover={{
-                scale: 1.05,
-                backgroundColor: "#FF9800",
+                scale: 1.03,
+                backgroundColor: "#FFC000",
                 color: "#FAF9F6",
-                boxShadow: "0px 8px 20px rgba(255, 152, 0, 0.35)",
+                boxShadow: "0px 4px 12px rgba(255, 192, 0, 0.25)",
             }}
             whileTap={{
                 scale: 0.95,
-                boxShadow: "0px 4px 10px rgba(255, 152, 0, 0.25)",
+                boxShadow: "0px 2px 6px rgba(255, 192, 0, 0.20)",
             }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
-            className="px-6 py-3 bg-[#1976D2] text-[#FAF9F6] font-semibold rounded-full shadow-md text-base sm:text-lg"
+            className="px-4 py-2 bg-[#1976D2] text-[#FAF9F6] font-semibold rounded-full shadow-md text-xs sm:text-sm border-2 border-[#FFC000]"
             onClick={() => window.location.href = '/team'}
         >
-            Click here to learn more about our team
+            Learn more about our team
         </motion.button>
-    </motion.div>
+      </motion.div>
     </section>
   );
 };
