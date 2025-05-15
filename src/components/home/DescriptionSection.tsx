@@ -115,7 +115,7 @@ const DescriptionSection = () => {
                   className="space-y-2"
                 >
                   <motion.li variants={listItem} className="flex items-start">
-                    <span className="inline-flex items-center justify-center bg-[#FFC000] text-[#1E293B] rounded-full w-4 h-4 sm:w-5 sm:h-5 mr-2 mt-0.5 flex-shrink-0 text-xs">•</span>
+                    <span className="inline-flex items-center justify-center bg-[#1976D2] text-[#FAF9F6] rounded-full w-4 h-4 sm:w-5 sm:h-5 mr-2 mt-0.5 flex-shrink-0 text-xs">•</span>
                     <span className="text-[#1E293B] text-xs sm:text-sm">A community fostering curiosity and creativity</span>
                   </motion.li>
                   <motion.li variants={listItem} className="flex items-start">
