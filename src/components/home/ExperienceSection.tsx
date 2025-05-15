@@ -1,12 +1,24 @@
 "use client";
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import React from 'react';
+import { ReactNode } from 'react';
+
+
+type CategoryKey = 'educators' | 'engineers' | 'mentors';
 
 const ExperienceSection = () => {
-  const [activeCategory, setActiveCategory] = useState('educators');
+  const [activeCategory, setActiveCategory] = useState<CategoryKey>('educators');
+
+
   
   // Categories of team members with their experience highlights
-  const experienceCategories = {
+  const experienceCategories: Record<CategoryKey, {
+  title: string;
+  description: string;
+  highlights: string[];
+  icon: ReactNode;
+}> = {
     educators: {
       title: "Our Educators",
       description: "Passionate teachers who make learning fun!",
@@ -116,13 +128,15 @@ const ExperienceSection = () => {
           </p>
         </motion.div>
 
-        {/* Team Categories Tabs */}
+        // Team Categories Tabs
         <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {Object.keys(experienceCategories).map((category) => (
+          {/* Corrected line below: Cast Object.keys result to CategoryKey[] */}
+          {(Object.keys(experienceCategories) as Array<CategoryKey>).map((category) => (
             <motion.button
               key={category}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              // Now 'category' is correctly typed as CategoryKey, so this is fine
               onClick={() => setActiveCategory(category)}
               className={`px-6 py-3 rounded-full text-lg font-medium transition-all duration-300 ${
                 activeCategory === category
@@ -130,6 +144,7 @@ const ExperienceSection = () => {
                   : "bg-white text-[var(--color-primary)] shadow-md hover:shadow-lg"
               }`}
             >
+              {/* And this access is also fine now */}
               {experienceCategories[category].title}
             </motion.button>
           ))}
