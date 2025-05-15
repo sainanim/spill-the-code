@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="pt-2"> {/* Added padding-top to account for fixed header */}
+      <main className="pt-2 bg-white"> {/* Added padding-top to account for fixed header */}
         <MeetOurTeamSection />
         <TeamCertificatesSection />
       </main>
