@@ -30,7 +30,6 @@ const teamData: TeamMember[] = [
     name: "Mukesh S",
     imageUrl: "/team/Mukesh.jpg",
     points: [
-      "Mukesh holds a PhD in Robotics Engineering from MIT with extensive research in autonomous systems and AI-driven robotics.",
       "With over 15 years of experience in the field, he has led multiple research teams developing cutting-edge robotic applications for industry and education.",
       "He brings a wealth of practical knowledge in hardware integration, sensors, and embedded systems that complements our software-focused curriculum.",
       "Mukesh is passionate about making robotics accessible to students of all ages and backgrounds, believing that hands-on experience is the key to understanding complex systems."
