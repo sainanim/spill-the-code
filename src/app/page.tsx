@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <>
       
-      <main className="pt-2"> {/* Added padding-top to account for fixed header */}
+      <main className=""> {/* Added padding-top to account for fixed header */}
         <HeroSection />
         <AboutUsSection id="about-us"/>
         <DescriptionSection />

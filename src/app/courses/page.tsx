@@ -1,18 +1,147 @@
 "use client"
 
+import { useState, ChangeEvent, FormEvent } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { BotIcon as Robot, Brain, Code, Calculator } from "lucide-react"
+import { BotIcon as Robot, Brain, Code, Calculator, X } from "lucide-react"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
 import Footer from "@/components/Footer"
 
+
+interface EnrollmentModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  courseTitle: string;
+}
+
+const EnrollmentModal: React.FC<EnrollmentModalProps> = ({ isOpen, onClose, courseTitle }) => {
+  const [formData, setFormData] = useState<{ name: string; email: string; message: string }>({
+    name: '',
+    email: '',
+    message: '',
+  });
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/send-enquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, course: courseTitle }), // include courseTitle here
+    });
+
+      if (res.ok) {
+        alert('Thank you for your enquiry!');
+        setFormData({ name: '', email: '', message: '' }); // clear form
+        onClose();
+      } else {
+        alert('Failed to send enquiry. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Something went wrong.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+    onClick={onClose}>
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-lg shadow-xl max-w-md w-full"
+      >
+        <div className="flex justify-between items-center p-4 border-b">
+          <h3 className="text-lg font-bold">Enquire for {courseTitle}</h3>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="p-4">
+          <div className="mb-4">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+              Message
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              rows={4}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF9800]"
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-2 px-4 bg-[#197602] text-white rounded-md hover:bg-opacity-90 transition-colors"
+          >
+            {loading ? 'Sending...' : 'Submit Enquiry'}
+          </button>
+        </form>
+      </motion.div>
+    </div>
+  );
+};
+
+interface AnimatedCardProps {
+  children: React.ReactNode;
+}
 // Define the AnimatedCard component that wraps the Card with motion and viewport detection
-function AnimatedCard({ children }: { children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, amount: 0.3 })
-  
+const AnimatedCard: React.FC<AnimatedCardProps> = ({ children }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
+
   const cardVariants = {
     hidden: { 
       opacity: 0, 
@@ -43,10 +172,15 @@ function AnimatedCard({ children }: { children: React.ReactNode }) {
 }
 
 // Define animation for section headers
-function AnimatedSectionHeader({ icon, title }: { icon: React.ReactNode; title: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, amount: 0.1 })
-  
+interface AnimatedSectionHeaderProps {
+  icon: React.ReactNode;
+  title: string;
+}
+
+const AnimatedSectionHeader: React.FC<AnimatedSectionHeaderProps> = ({ icon, title }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
+
   const headerVariants = {
     hidden: { 
       opacity: 0, 
@@ -77,11 +211,17 @@ function AnimatedSectionHeader({ icon, title }: { icon: React.ReactNode; title: 
 }
 
 export default function CoursesPage() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState("");
+
+  const openModal = (courseTitle: string) => {
+    setSelectedCourse(courseTitle);
+    setModalOpen(true);
+  };
+
   return (
     <>
     <div className="min-h-screen bg-[#EOF2F7] px-5">
-      
-
       <main className="container mx-auto py-10 px-4">
         <motion.h2 
           initial={{ opacity: 0, y: 30 }}
@@ -91,7 +231,6 @@ export default function CoursesPage() {
         >
           Our Awesome Courses
         </motion.h2>
-
 
         {/* AI Section */}
         <section className="mb-12">
@@ -113,6 +252,7 @@ export default function CoursesPage() {
                   "Build a simple chatbot using logic blocks or Python",
                 ]}
                 level="beginner"
+                onEnroll={() => openModal("Beginner Level: Foundations of AI")}
               />
             </AnimatedCard>
 
@@ -128,6 +268,7 @@ export default function CoursesPage() {
                   "Train a simple ML model using scikit-learn",
                 ]}
                 level="intermediate"
+                onEnroll={() => openModal("Intermediate Level: Machine Learning Basics")}
               />
             </AnimatedCard>
 
@@ -143,6 +284,7 @@ export default function CoursesPage() {
                   "Capstone Project: Build and present your own AI application",
                 ]}
                 level="advanced"
+                onEnroll={() => openModal("Advanced Level: Real-World AI Projects")}
               />
             </AnimatedCard>
           </div>
@@ -167,6 +309,7 @@ export default function CoursesPage() {
                   "Build mini games like Rock-Paper-Scissors or a simple calculator",
                 ]}
                 level="beginner"
+                onEnroll={() => openModal("Beginner Level: Coding Fundamentals")}
               />
             </AnimatedCard>
 
@@ -182,6 +325,7 @@ export default function CoursesPage() {
                   "Mobile App Mockup using tools like Thunkable or Replit",
                 ]}
                 level="intermediate"
+                onEnroll={() => openModal("Intermediate Level: Web & App Development")}
               />
             </AnimatedCard>
 
@@ -197,6 +341,7 @@ export default function CoursesPage() {
                   "Capstone Project: Build a complete game or mini web app",
                 ]}
                 level="advanced"
+                onEnroll={() => openModal("Advanced Level: Full Projects & Logic Building")}
               />
             </AnimatedCard>
           </div>
@@ -221,6 +366,7 @@ export default function CoursesPage() {
                   "Block-based coding (using LEGO Spike or MakeCode)",
                 ]}
                 level="beginner"
+                onEnroll={() => openModal("Beginner Level: Intro to Robotics")}
               />
             </AnimatedCard>
 
@@ -235,6 +381,7 @@ export default function CoursesPage() {
                   "Simple automation: Line follower robot or obstacle avoider",
                 ]}
                 level="intermediate"
+                onEnroll={() => openModal("Intermediate Level: Sensors & Automation")}
               />
             </AnimatedCard>
 
@@ -250,6 +397,7 @@ export default function CoursesPage() {
                   "Capstone Project: Design, build, and code a smart robot",
                 ]}
                 level="advanced"
+                onEnroll={() => openModal("Advanced Level: Mechatronics & AI + Robotics")}
               />
             </AnimatedCard>
           </div>
@@ -274,6 +422,7 @@ export default function CoursesPage() {
                   "Introduction to coordinates and basic geometry",
                 ]}
                 level="beginner"
+                onEnroll={() => openModal("Beginner Level: Building Confidence in Math")}
               />
             </AnimatedCard>
 
@@ -288,6 +437,7 @@ export default function CoursesPage() {
                   "Geometry in motion: linking math to robotics",
                 ]}
                 level="intermediate"
+                onEnroll={() => openModal("Intermediate Level: Algebra and Problem Solving")}
               />
             </AnimatedCard>
 
@@ -303,21 +453,21 @@ export default function CoursesPage() {
                   "Capstone Project: Use math to solve a real-world tech challenge",
                 ]}
                 level="advanced"
+                onEnroll={() => openModal("Advanced Level: Math for Coders & Engineers")}
               />
             </AnimatedCard>
           </div>
         </section>
       </main>
 
-      {/* <footer className="bg-[#FAF9F6] py-6 px-4 border-t">
-        <div className="container mx-auto text-center">
-          <p className="text-sm">© 2023 Spill The Code Academy. All rights reserved.</p>
-        </div>
-      </footer> */}
+      {/* Enrollment Modal */}
+      <EnrollmentModal 
+        isOpen={modalOpen} 
+        onClose={() => setModalOpen(false)} 
+        courseTitle={selectedCourse} 
+      />
     </div>
-      
-      </>
-
+    </>
   )
 }
 
@@ -326,9 +476,10 @@ interface CourseLevelProps {
   description: string
   topics: string[]
   level: "beginner" | "intermediate" | "advanced"
+  onEnroll: () => void
 }
 
-function CourseLevel({ title, description, topics, level }: CourseLevelProps) {
+function CourseLevel({ title, description, topics, level, onEnroll }: CourseLevelProps) {
   const getBadgeColor = () => {
     switch (level) {
       case "beginner":
@@ -366,6 +517,7 @@ function CourseLevel({ title, description, topics, level }: CourseLevelProps) {
           className="w-full py-2 px-4 bg-[#197602] text-white rounded-md hover:bg-opacity-90 transition-colors mt-auto"
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
+          onClick={onEnroll}
         >
           Enroll Now
         </motion.button>
