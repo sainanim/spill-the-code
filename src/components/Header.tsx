@@ -7,20 +7,31 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Detect scroll to change header appearance
   useEffect(() => {
+    // Define the scroll handler
     const handleScroll = () => {
       const isScrolled = window.scrollY > 10;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
-      }
+      // Only update state if it actually changes to prevent unnecessary re-renders
+      // and an infinite loop if setScrolled was in dependencies for this.
+      setScrolled(currentScrolled => {
+        if (currentScrolled !== isScrolled) {
+          return isScrolled;
+        }
+        return currentScrolled;
+      });
     };
 
+    // Call it once on mount to set the initial scroll state
+    handleScroll();
+
+    // Add event listener
     window.addEventListener('scroll', handleScroll);
+
+    // Cleanup function to remove event listener when the component unmounts
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [scrolled]);
+  }, []); // Empty dependency array: effect runs only on mount and unmount
 
   const navLinks = [
     { name: 'Courses', href: '/courses' },
@@ -104,7 +115,7 @@ const Header = () => {
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
+            exit={{ opacity: 0, height: 0 }} // Make sure AnimatePresence is used if you want exit animations
             transition={{ duration: 0.3 }}
             className="md:hidden mt-4 py-4 bg-white rounded-lg shadow-lg"
           >

@@ -8,6 +8,7 @@ interface AboutUsSectionProps {
 
 const AboutUsSection: React.FC<AboutUsSectionProps> = ({ id }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const [windowWidth, setWindowWidth] = useState<number | null>(null);
 
   // Check if we're on mobile on component mount and window resize
   useEffect(() => {
@@ -93,7 +94,7 @@ const AboutUsSection: React.FC<AboutUsSectionProps> = ({ id }) => {
 
   return (
     <section id={id} className="py-12 sm:py-16 bg-slate-50">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -396,7 +397,7 @@ const AboutUsSection: React.FC<AboutUsSectionProps> = ({ id }) => {
                   const angle = (index * 120) * (Math.PI / 180);
                   
                   // Responsive radius based on screen size
-                  const radius = window.innerWidth < 1024 ? 160 : 200; // Smaller radius for medium screens
+                  const radius = windowWidth !== null ? (windowWidth < 1024 ? 160 : 200) : 200; // fallback 200
                   
                   // Calculate x,y coordinates based on angle
                   const x = Math.cos(angle) * radius;

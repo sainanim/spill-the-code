@@ -33,34 +33,10 @@ const certificatesData: Certificate[] = [
    {
      id: 3,
      title: "Python",
-     issuedBy: "MIT",
-     issuedTo: "Mukesh S",
-     year: "2021",
-     imageUrl: "https://marketplace.canva.com/EAFh7cFx9So/5/0/1600w/canva-white-and-gold-certificate-of-appreciation-fE_Brsy8-8E.jpg",
-   },
-   {
-     id: 4,
-     title: "AI Ethics & Governance",
-     issuedBy: "University of Toronto",
+     issuedBy: "Hackerrank",
      issuedTo: "Monica Sainani",
-     year: "2023",
-     imageUrl: "https://marketplace.canva.com/EAFh7cFx9So/5/0/1600w/canva-white-and-gold-certificate-of-appreciation-fE_Brsy8-8E.jpg",
-   },
-   {
-     id: 5,
-     title: "Advanced Robotics Systems",
-     issuedBy: "Tokyo Institute of Technology",
-     issuedTo: "Mukesh S",
-     year: "2022",
-     imageUrl: "https://marketplace.canva.com/EAFh7cFx9So/5/0/1600w/canva-white-and-gold-certificate-of-appreciation-fE_Brsy8-8E.jpg",
-   },
-   {
-     id: 6,
-     title: "Computer Vision Mastery",
-     issuedBy: "Carnegie Mellon University",
-     issuedTo: "Mukesh S",
-     year: "2023",
-     imageUrl: "https://marketplace.canva.com/EAFh7cFx9So/5/0/1600w/canva-white-and-gold-certificate-of-appreciation-fE_Brsy8-8E.jpg",
+     year: "2025",
+     imageUrl: "/certificates/python_basic.jpg",
    }
 ];
 
