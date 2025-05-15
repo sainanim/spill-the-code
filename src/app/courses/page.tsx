@@ -80,33 +80,15 @@ export default function CoursesPage() {
   return (
     <>
     <div className="min-h-screen bg-[#EOF2F7] px-5">
-      <header className="bg-[#FAF9F6] py-6 px-4 md:px-6 border-b">
-        <div className="container mx-auto">
-          <motion.h1 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="text-3xl md:text-4xl font-bold text-center"
-          >
-            Spill The Code
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-center mt-2 text-lg"
-          >
-            Academy of Intelligent Minds
-          </motion.p>
-        </div>
-      </header>
+      
 
       <main className="container mx-auto py-8 px-4">
         <motion.h2 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-2xl md:text-3xl font-bold text-center mb-8"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-3xl sm:text-4xl font-bold text-[var(--color-primary)] text-center mb-16"
         >
           Our Awesome Courses
         </motion.h2>

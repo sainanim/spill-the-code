@@ -55,11 +55,13 @@ const HeroSection = () => {
               Contact Us
             </button>
             <button
-              className="px-5 py-2.5 sm:px-6 sm:py-3 bg-yellow-500 text-white font-semibold rounded-full hover:bg-opacity-90 transition-colors duration-300 shadow-md text-sm sm:text-base w-full mt-3 xs:mt-0"
+              className="px-5 py-2.5 sm:px-6 sm:py-3 bg-yellow-500 text-white font-semibold rounded-full transition-all duration-300 shadow-md text-sm sm:text-base w-full mt-3 xs:mt-0
+                        hover:brightness-110 hover:shadow-lg active:scale-[0.98]"
               onClick={() => window.location.href = '/courses'}
             >
               Explore Courses
             </button>
+
           </div>
         </div>
       </div>
