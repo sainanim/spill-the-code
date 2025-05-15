@@ -29,11 +29,13 @@ const ContactUsSection: React.FC<ContactUsSectionProps> = ({ id }) => {
         body: JSON.stringify(formData),
       });
 
+      const data = await res.json();
+
       if (res.ok) {
         alert('Thank you for your enquiry!');
         setFormData({ name: '', email: '', message: '' }); // clear form
       } else {
-        alert('Failed to send enquiry. Please try again.');
+        alert(data.message);
       }
     } catch (error) {
       console.error('Error submitting form:', error);
