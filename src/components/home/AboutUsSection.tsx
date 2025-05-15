@@ -93,7 +93,7 @@ const AboutUsSection: React.FC<AboutUsSectionProps> = ({ id }) => {
   ];
 
   return (
-    <section id={id} className="py-12 sm:py-16 bg-slate-50">
+    <section id={id} className="pt-8 bg-slate-50">
       <div className="container mx-auto px-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
