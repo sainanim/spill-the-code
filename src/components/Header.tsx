@@ -55,12 +55,12 @@ const Header = () => {
               transition={{ duration: 0.5 }}
               className="flex items-center cursor-pointer"
             >
-              {/* Logo Placeholder */}
-              <div className="w-10 h-10 rounded-full bg-[var(--color-primary)] flex items-center justify-center mr-3">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                </svg>
-              </div>
+              {/* Logo */}
+              <img 
+                src="/spill_the_code_logo.png" 
+                alt="Spill The Code Logo" 
+                className="w-10 h-10 object-contain mr-3" 
+              />
               
               {/* Brand Name */}
               <span className="text-xl font-bold text-[var(--color-primary)]">Spill the Code</span>

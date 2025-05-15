@@ -9,13 +9,14 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center">
           {/* Logo and Brand */}
           <div className="flex items-center mb-6 md:mb-0">
-            <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center mr-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[var(--color-primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-              </svg>
-            </div>
+            <img 
+              src="/spill_the_code_logo.png" 
+              alt="Spill The Code Logo" 
+              className="w-8 h-8 object-contain mr-2" 
+            />
             <span className="text-lg font-semibold">Spill the Code</span>
           </div>
+
           
           {/* Basic Links */}
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 mb-6 md:mb-0">

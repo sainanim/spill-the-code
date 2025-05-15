@@ -135,7 +135,7 @@ const ContactUsSection: React.FC<ContactUsSectionProps> = ({ id }) => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: "easeOut" }}
         >
-            <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-indigo-600 transition duration-300">
+            <a href="https://wa.me/16475643126?text=Hello%2C%20I%20am%20interested%20in%20your%20courses%20and%20would%20like%20to%20know%20more." target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-indigo-600 transition duration-300">
                 <FaWhatsapp className="w-10 h-10" />
             </a>
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-indigo-600 transition duration-300">
