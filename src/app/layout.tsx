@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Spill the code",
+  title: "Spill the Code",
   description: "Academy of Intelligent Minds",
 };
 

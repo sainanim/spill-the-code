@@ -21,7 +21,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="py-10 sm:py-16 md:py-24 bg-gradient-to-br from-blue-50 to-blue-100">
+    <section className="py-10 sm:py-16 md:py-20 bg-gradient-to-br from-blue-50 to-blue-100">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center">
           <motion.div
