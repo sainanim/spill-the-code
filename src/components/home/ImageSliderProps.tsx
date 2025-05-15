@@ -34,6 +34,21 @@ export default function ImageSlider({
       title: "Community Games Night",
       description: "Photos from our last developer community games night featuring coding challenges and tech trivia."
     },
+    {
+      src: "/imgs/student_showing_robot.jpg",
+      title: "Student Showcasing Robot",
+      description: "Robotics"
+    },
+    {
+      src: "/imgs/student_ai.jpg",
+      title: "Student using AI to solve problems",
+      description: "Using AI to leverage technology frob problem-solving"
+    },
+    {
+      src: "/imgs/havi_robotkit.webp",
+      title: "Students being exposed to Havi Robotics Kit",
+      description: "Havi robotics kit is a great way to combine learning and fun."
+    },
   ],
   autoSlideInterval = 5000 
 }: ImageSliderProps) {
