@@ -10,10 +10,9 @@ interface ImageSliderProps {
 
 export default function ImageSlider({ 
   images = [
-    "/imgs/trending languages 2025.png", 
-    "/imgs/ai course topics.png", 
-    "/imgs/games night with parents.jpg", 
-    "/imgs/interactive learning in classroom.jpg"
+    "/imgs/trending_languages_2025.png", 
+    "/imgs/ai_course_topics.png", 
+    "/imgs/how_to_train_an_ai_model.webp",
   ],
   autoSlideInterval = 5000 
 }: ImageSliderProps) {
