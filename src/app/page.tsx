@@ -10,6 +10,7 @@ import MeetOurTeamSection from '../components/team/MeetOurTeamSection';
 import ContactUsSection from '../components/home/ContactUsSection';
 import OurMotto from '@/components/home/OurMotto';
 import ExperienceSection from '@/components/home/ExperienceSection';
+import ImageSlider from '@/components/home/ImageSliderProps';
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
         <HeroSection />
         <AboutUsSection id="about-us"/>
         <DescriptionSection />
+        <ImageSlider/>
         <WhatMakesUsUniqueSection />
         {/* <TestimonialsSection /> */}
         {/* <MeetOurTeamSection /> */}
