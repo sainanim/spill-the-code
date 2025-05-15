@@ -124,16 +124,30 @@ const AboutUsSection: React.FC<AboutUsSectionProps> = ({ id }) => {
                 variants={textItem}
                 className="text-slate-700 text-base sm:text-lg leading-relaxed mb-4 sm:mb-6"
               >
-                Founded in 2023, the Academy of Intelligent Minds is a pioneering educational institution dedicated to 
-                empowering the next generation with skills in artificial intelligence, coding, and robotics. Our mission 
-                is to bridge the gap between traditional education and the rapidly evolving technological landscape.
+                Spill the Code started with just a few of us, friends who loved learning about coding, AI, and building cool things together. We’d meet up, share what we were working on, and help each other figure things out. It was casual, fun, and full of curiosity. What began as a small group has now grown into something much bigger.
+
               </motion.p>
               
               <motion.p 
                 variants={textItem}
                 className="text-slate-700 text-base sm:text-lg leading-relaxed mb-4 sm:mb-6"
               >
-                We believe that every child has the potential to become a creator, innovator, and problem-solver in the digital age. Our team of passionate educators and industry professionals is committed to nurturing this potential through innovative teaching methods and a curriculum that evolves with technology. To ensure accessibility and flexibility, we offer multiple modes of teaching—including online, hybrid, and in-person learning—tailored to suit the diverse needs of our students.
+                Today, we’re proud to be teaching over 20 kids in Mississauga, introducing them to programming, robotics, and tech in a way that’s hands-on, creative, and exciting.
+
+              </motion.p>
+              
+              <motion.p 
+                variants={textItem}
+                className="text-slate-700 text-base sm:text-lg leading-relaxed mb-4 sm:mb-6"
+              >
+                Our goal is simple: make coding accessible and fun for everyone. We want young people to feel confident using technology, not just as users, but as creators. Whether it’s building their first website, learning how AI works, or just getting curious about how things are made, we’re here to guide and support them.
+              </motion.p>
+              <motion.p 
+                variants={textItem}
+                className="text-slate-700 text-base sm:text-lg leading-relaxed mb-4 sm:mb-6"
+              >
+                Spill the Code is more than just classes, it's a growing community, and we’re just getting started.
+
               </motion.p>
             </motion.div>
             
