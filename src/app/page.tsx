@@ -23,7 +23,6 @@ export default function Home() {
         <ImageSlider/>
         <WhatMakesUsUniqueSection />
         {/* <TestimonialsSection /> */}
-        {/* <MeetOurTeamSection /> */}
         <OurMotto/>
         {/* <ExperienceSection/> */}
         <ContactUsSection id="contact-us" />
