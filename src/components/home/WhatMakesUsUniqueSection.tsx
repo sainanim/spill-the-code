@@ -1,6 +1,7 @@
 "use client";
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import ImageSlider from './ImageSliderProps';
 
 const WhatMakesUsUniqueSection = () => {
   // Add responsive state
@@ -110,6 +111,7 @@ const WhatMakesUsUniqueSection = () => {
           ))}
         </motion.div>
       </div>
+      <ImageSlider />
     </section>
   );
 };

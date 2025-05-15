@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 // Enhanced interface with descriptions for each image
 interface ImageSliderProps {
@@ -107,14 +108,24 @@ export default function ImageSlider({
 
   return (
     <div 
-      className="w-full bg-gray-50 py-12 px-4 md:py-16 md:px-8"
+      className="w-full py-12 px-4 md:py-16 md:px-8"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
       <div className="max-w-4xl mx-auto overflow-hidden">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-gray-800">
-          Image Gallery
-        </h2>
+        <motion.h2 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8 }}
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#1976D2] text-center mb-8 sm:mb-10 md:mb-12"
+        >
+          <span className="relative inline-block">
+            Visual Showcase
+            <span className="absolute bottom-0 left-0 w-full h-1 bg-[#FFC000] translate-y-1"></span>
+          </span>
+        </motion.h2>
+
         
         <div className="relative h-80 md:h-120 overflow-hidden rounded-lg shadow-lg border-4 border-blue-600 transition-all duration-300" style={{ boxShadow: '0 0 20px rgba(25, 118, 210, 0.3)' }}>
           {/* Slider container - improved to prevent partial images */}

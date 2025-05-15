@@ -82,16 +82,16 @@ export default function CoursesPage() {
     <div className="min-h-screen bg-[#EOF2F7] px-5">
       
 
-      <main className="container mx-auto py-8 px-4">
+      <main className="container mx-auto py-10 px-4">
         <motion.h2 
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-3xl sm:text-4xl font-bold text-[var(--color-primary)] text-center mb-16"
+          className="text-3xl sm:text-4xl font-bold text-[var(--color-primary)] text-center mb-12 mt-10"
         >
           Our Awesome Courses
         </motion.h2>
+
 
         {/* AI Section */}
         <section className="mb-12">

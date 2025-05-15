@@ -71,14 +71,14 @@ const TeamCertificatesSection = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-50 to-blue-100 overflow-hidden">
+    <section className="py-8 bg-white overflow-hidden pb-20">
       <div className="container mx-auto px-4">
-        <motion.h2
+        <motion.h2 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-3xl sm:text-4xl font-bold text-blue-900 text-center mb-16"
+          className="text-3xl sm:text-4xl font-bold text-[var(--color-primary)] text-center mb-16"
         >
           Our Team's Certifications
         </motion.h2>

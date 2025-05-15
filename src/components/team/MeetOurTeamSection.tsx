@@ -16,7 +16,7 @@ const teamData: TeamMember[] = [
   {
     id: 1,
     name: "Monica Sainani",
-    imageUrl: "https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png",
+    imageUrl: "/team/Monica.jpg",
     points: [
       "Monica is a graduate from the University of Toronto with degrees in Computer Science and Cognitive Science, with experience at tech companies like Cisco Systems.",
       "She's an advocate for learning that's personalized, meaningful, and accessible to all, having started coding young and found confidence through technology.",
@@ -28,7 +28,7 @@ const teamData: TeamMember[] = [
   {
     id: 2,
     name: "Mukesh S",
-    imageUrl: "https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png",
+    imageUrl: "/team/Mukesh.jpg",
     points: [
       "Mukesh holds a PhD in Robotics Engineering from MIT with extensive research in autonomous systems and AI-driven robotics.",
       "With over 15 years of experience in the field, he has led multiple research teams developing cutting-edge robotic applications for industry and education.",
@@ -69,7 +69,7 @@ const MeetOurTeamSection = () => {
   };
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-8 bg-white mt-12">
       <div className="container mx-auto px-4">
         <motion.h2 
           initial={{ opacity: 0, y: 30 }}

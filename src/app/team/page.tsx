@@ -13,7 +13,7 @@ export default function Home() {
         <MeetOurTeamSection />
         <TeamCertificatesSection />
       </main>
-      <Footer />
+      
     </>
   );
 }

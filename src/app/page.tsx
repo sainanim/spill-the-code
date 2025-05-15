@@ -20,8 +20,8 @@ export default function Home() {
         <HeroSection />
         <AboutUsSection id="about-us"/>
         <DescriptionSection />
-        <ImageSlider/>
         <WhatMakesUsUniqueSection />
+        {/* <ImageSlider/> */}
         {/* <TestimonialsSection /> */}
         <OurMotto/>
         {/* <ExperienceSection/> */}
