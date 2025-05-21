@@ -64,7 +64,7 @@ const Footer = () => {
           {/* Social Icons */}
           <div className="flex justify-center md:justify-end gap-4 text-2xl">
             <a
-              href="#"
+              href="https://wa.me/16475643126?text=Hello%2C%20I%20am%20interested%20in%20your%20courses%20and%20would%20like%20to%20know%20more."
               className="hover:text-[var(--color-accent)] transition-colors duration-300"
               aria-label="WhatsApp"
             >
