@@ -43,7 +43,7 @@ const HeroSection = () => {
             </h1>
 
             <p className="mt-3 sm:mt-4 text-xl sm:text-2xl text-blue-500 text-center max-w-xl font-medium">
-              Academy Of Intelligent Minds
+              Academy of Intelligent Minds
             </p>
           </div>
 
