@@ -34,6 +34,7 @@ const Header = () => {
   }, []); // Empty dependency array: effect runs only on mount and unmount
 
   const navLinks = [
+    { name: 'Our Team', href: '/team' },
     { name: 'Courses', href: '/courses' },
     { name: 'About Us', href: '/#about-us' },
     { name: 'Contact Us', href: '/#contact-us' }
