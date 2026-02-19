@@ -1,6 +1,6 @@
 # Spill The Code – Website Documentation
 
-This is the official source code for the **Spill The Code** website built using **Next.js (App Router)** and **Tailwind CSS**. This guide is written for future developers or the client to help modify or maintain the project with clarity.
+This is the official source code for the **Spill The Code** website built using **Next.js (App Router)** and **Tailwind CSS**. This guide is written for future developers or the client to help modify or maintain the project with clarity...
 
 ---
 
