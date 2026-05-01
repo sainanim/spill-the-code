@@ -7,7 +7,6 @@ import { BotIcon as Robot, Brain, Code, Calculator, X } from "lucide-react"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
-import Footer from "@/components/Footer"
 
 
 interface EnrollmentModalProps {
