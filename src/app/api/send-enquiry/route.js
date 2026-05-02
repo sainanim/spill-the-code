@@ -1,5 +1,14 @@
 import nodemailer from "nodemailer";
 
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 export async function POST(req) {
   try {
     const body = await req.json();
@@ -13,6 +22,11 @@ export async function POST(req) {
       );
     }
 
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeMessage = escapeHtml(message).replace(/\n/g, "<br>");
+    const safeCourse = course ? escapeHtml(course) : null;
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -23,28 +37,28 @@ export async function POST(req) {
 
     let htmlBody;
 
-    if (course) {
+    if (safeCourse) {
       htmlBody = `
         <h2>New Course Enquiry Submission</h2>
-        <p><strong>Course:</strong> ${course}</p>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Message:</strong><br>${message.replace(/\n/g, "<br>")}</p>
+        <p><strong>Course:</strong> ${safeCourse}</p>
+        <p><strong>Name:</strong> ${safeName}</p>
+        <p><strong>Email:</strong> ${safeEmail}</p>
+        <p><strong>Message:</strong><br>${safeMessage}</p>
       `;
     } else {
       htmlBody = `
         <h2>New Contact Us Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Message:</strong><br>${message.replace(/\n/g, "<br>")}</p>
+        <p><strong>Name:</strong> ${safeName}</p>
+        <p><strong>Email:</strong> ${safeEmail}</p>
+        <p><strong>Message:</strong><br>${safeMessage}</p>
       `;
     }
 
     const mailOptions = {
       from: `"Website Enquiry" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_RECEIVER,
-      subject: course
-        ? `New Enquiry for Course: ${course}`
+      subject: safeCourse
+        ? `New Enquiry for Course: ${safeCourse}`
         : "New Contact Us Form Submission",
       html: htmlBody,
     };
