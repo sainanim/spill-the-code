@@ -147,7 +147,7 @@ const NewLocationSection: React.FC<NewLocationSectionProps> = ({ id }) => {
                 Just in time for summer camps!
               </p>
               <p className="text-blue-200 text-sm mb-5 leading-relaxed">
-                Coding, robotics, AI — our summer camps are launching at the new location. Spots fill fast.
+                Coding, robotics, AI, math, english — our summer camps are launching at the new location. Spots fill fast.
               </p>
               <Link
                 href="/summer-camps"
