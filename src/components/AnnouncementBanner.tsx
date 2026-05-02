@@ -4,11 +4,11 @@ import { usePathname } from "next/navigation";
 
 const AnnouncementBanner = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [nearSummerCamps, setNearSummerCamps] = useState(false);
+  const [nearNewLocation, setNearNewLocation] = useState(false);
   const pathname = usePathname();
 
 
-  // scroll 
+  // scroll
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 10;
@@ -22,13 +22,13 @@ const AnnouncementBanner = () => {
 
   // intersection observer
   useEffect(() => {
-    setNearSummerCamps(false);
+    setNearNewLocation(false);
 
-    const section = document.getElementById("summer-camps");
+    const section = document.getElementById("new-location");
     if (!section) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => setNearSummerCamps(entry.isIntersecting),
+      ([entry]) => setNearNewLocation(entry.isIntersecting),
       { threshold: 0, rootMargin: "0px 0px -80% 0px" }
     );
 
@@ -40,7 +40,7 @@ const AnnouncementBanner = () => {
     <div
       className={`fixed left-0 right-0 z-40 w-full bg-[#FFC000] py-1.5 px-4 transition-all duration-300 ${
         scrolled ? "top-14" : "top-[4.5rem]"
-      } ${nearSummerCamps ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+      } ${nearNewLocation ? "opacity-0 pointer-events-none" : "opacity-100"}`}
     >
       {/* Mobile */}
       <div className="flex flex-col items-center sm:hidden">
@@ -53,7 +53,7 @@ const AnnouncementBanner = () => {
             New location opening soon — Just in time for summer camps!
           </span>
         </div>
-        <a href="/#summer-camps" className="text-slate-800 text-xs font-bold mt-0.5">
+        <a href="/#new-location" className="text-slate-800 text-xs font-bold mt-0.5">
           Learn More →
         </a>
       </div>
@@ -67,7 +67,7 @@ const AnnouncementBanner = () => {
         <p className="text-slate-800 text-sm font-semibold text-center">
           New location opening soon — Just in time for summer camps!
         </p>
-        <a href="/#summer-camps" className="text-slate-800 text-sm font-bold whitespace-nowrap hover:underline underline-offset-2">
+        <a href="/#new-location" className="text-slate-800 text-sm font-bold whitespace-nowrap hover:underline underline-offset-2">
           Learn More →
         </a>
       </div>
