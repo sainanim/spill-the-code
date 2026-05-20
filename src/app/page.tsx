@@ -17,8 +17,8 @@ export default function Home() {
       
       <main className=""> {/* Added padding-top to account for fixed header */}
         <HeroSection />
-        <AboutUsSection id="about-us"/>
         <NewLocationSection id="new-location" />
+        <AboutUsSection id="about-us"/>
         <DescriptionSection />
         <WhatMakesUsUniqueSection />
         {/* <ImageSlider/> */}
