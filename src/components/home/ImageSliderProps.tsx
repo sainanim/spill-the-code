@@ -16,9 +16,9 @@ interface ImageSliderProps {
 export default function ImageSlider({ 
   images = [
     {
-      src: "/imgs/trending_languages_2025.png",
-      title: "Trending Programming Languages 2025",
-      description: "A visual chart showing the most popular programming languages in 2025, ranked by developer usage and market adoption."
+      src: "/imgs/Booth.jpeg",
+      title: "Indigo Booth",
+      description: "Spill the Code booth at Indigo displaying our services for kids and parents."
     },
     {
       src: "/imgs/ai_course_topics.png",
@@ -26,9 +26,9 @@ export default function ImageSlider({
       description: "Overview of essential topics covered in our comprehensive AI development courses."
     },
     {
-      src: "/imgs/how_to_train_an_ai_model.webp",
-      title: "AI Model Training Guide",
-      description: "Step-by-step visualization of the process for training custom AI models with best practices highlighted."
+      src: "/imgs/Selfie.jpeg",
+      title: "Team Selfie",
+      description: "Staff and students working and volunteering at the Spill the Code Indigo booth!"
     },
     {
       src: "/imgs/games_night.jpg",
@@ -36,19 +36,19 @@ export default function ImageSlider({
       description: "Photos from our last developer community games night featuring coding challenges and tech trivia."
     },
     {
-      src: "/imgs/student_showing_robot.jpg",
-      title: "Student Showcasing Robot",
-      description: "Robotics"
+      src: "/imgs/STC_shirt.jpeg",
+      title: "Spill the Code at Guiding Light Academy",
+      description: "Spill the Code at Guiding Light Academy's anual gala."
     },
     {
-      src: "/imgs/student_ai.jpg",
-      title: "Student using AI to solve problems",
-      description: "Using AI to leverage technology frob problem-solving"
+      src: "/imgs/trending_languages_2025.png",
+      title: "Trending Programming Languages 2025",
+      description: "A visual chart showing the most popular programming languages in 2025, ranked by developer usage and market adoption."
     },
     {
-      src: "/imgs/havi_robotkit.webp",
-      title: "Students being exposed to Havi Robotics Kit",
-      description: "Havi robotics kit is a great way to combine learning and fun."
+      src: "/imgs/Robotics.jpeg",
+      title: "Robotic Kit Showcase",
+      description: "A Spill the Code student demonstrating the robotics kits we use."
     },
   ],
   autoSlideInterval = 5000 

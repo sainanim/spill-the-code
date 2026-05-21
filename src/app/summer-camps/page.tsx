@@ -1,13 +1,13 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Code, Brain, Calculator, BookOpen, Cpu, Check, Clock, Calendar, CalendarDays, Mail } from "lucide-react";
+import { Code, Calculator, BookOpen, Cpu, Clock, Calendar, CalendarDays, Mail, Globe } from "lucide-react";
 
 const subjects = [
   {
     icon: <Code className="w-7 h-7" />,
-    title: "Coding",
-    description: "Build real projects from day one. Students learn Python, web development, and problem-solving through hands-on challenges.",
+    title: "Coding & AI",
+    description: "Build real projects and explore the future of technology. Students learn Python, web development, and dive into machine learning and AI applications.",
     color: "#1976D2",
     bg: "#E3F2FD",
   },
@@ -19,11 +19,11 @@ const subjects = [
     bg: "#FCE4EC",
   },
   {
-    icon: <Brain className="w-7 h-7" />,
-    title: "Artificial Intelligence",
-    description: "Explore machine learning, neural networks, and real-world AI applications in an age-appropriate, exciting format.",
-    color: "#7C3AED",
-    bg: "#EDE9FE",
+    icon: <Globe className="w-7 h-7" />,
+    title: "French",
+    description: "Discover the French language through immersive activities, conversation practice, and cultural exploration in a fun, engaging environment.",
+    color: "#0097A7",
+    bg: "#E0F7FA",
   },
   {
     icon: <Calculator className="w-7 h-7" />,
@@ -47,32 +47,40 @@ const pricing = [
     price: "$20",
     unit: "/ hour",
     description: "Pay as you go — perfect for trying us out.",
-    savings: null,
     highlight: false,
+    halfDay: null as null | { price: string; detail: string },
+    fullDay: null as null | { price: string; detail: string },
+    promo: null as string | null,
   },
   {
     label: "Daily",
-    price: "$60",
+    price: "$75",
     unit: "/ day",
-    description: "4 hours of focused learning in a single session.",
-    savings: "Save $20 vs. hourly rate",
+    description: "A full day of focused learning — 8 hours of hands-on instruction.",
     highlight: false,
+    halfDay: null as null | { price: string; detail: string },
+    fullDay: null as null | { price: string; detail: string },
+    promo: null as string | null,
   },
   {
     label: "Weekly",
-    price: "$250",
-    unit: "/ week",
-    description: "5 full days — the most popular choice for the summer.",
-    savings: "Save $50 vs. daily rate",
-    highlight: true,
+    price: null,
+    unit: null,
+    description: "5 days — the most popular choice for the summer.",
+    highlight: false,
+    halfDay: { price: "$200", detail: "Half Day" },
+    fullDay: { price: "$300", detail: "Full Day" },
+    promo: null as string | null,
   },
   {
     label: "Monthly",
-    price: "$800",
-    unit: "/ month",
+    price: null,
+    unit: null,
     description: "4 weeks of continuous growth, progress, and fun.",
-    savings: "Save $200 vs. weekly rate",
-    highlight: false,
+    highlight: true,
+    halfDay: { price: "$800", detail: "Half Day" },
+    fullDay: { price: "$1,200", detail: "Full Day" },
+    promo: "Get 10% off if you sign up for the monthly schedule today!",
   },
 ];
 
@@ -211,7 +219,7 @@ export default function SummerCampsPage() {
             transition={{ delay: 0.2 }}
             className="text-center text-slate-400 text-sm mb-10"
           >
-            One day = 4 hours of instruction.
+            Half day = 4 hours, Full day = 8 hours
           </motion.p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
@@ -236,23 +244,35 @@ export default function SummerCampsPage() {
                 <p className={`text-xs font-bold uppercase tracking-widest mb-3 ${p.highlight ? "text-blue-200" : "text-slate-400"}`}>
                   {p.label}
                 </p>
-                <div className="flex items-end gap-1 mb-3">
-                  <span className={`text-4xl font-bold ${p.highlight ? "text-white" : "text-slate-800"}`}>
-                    {p.price}
-                  </span>
-                  <span className={`text-sm mb-1 ${p.highlight ? "text-blue-200" : "text-slate-400"}`}>
-                    {p.unit}
-                  </span>
-                </div>
+                {p.halfDay ? (
+                  <div className="grid grid-cols-2 gap-2 mb-3">
+                    <div className={`rounded-xl p-3 text-center ${p.highlight ? "bg-white/15" : "bg-slate-50"}`}>
+                      <p className={`text-2xl font-bold ${p.highlight ? "text-white" : "text-slate-800"}`}>{p.halfDay.price}</p>
+                      <p className={`text-xs mt-1 ${p.highlight ? "text-blue-200" : "text-slate-400"}`}>{p.halfDay.detail}</p>
+                    </div>
+                    <div className={`rounded-xl p-3 text-center ${p.highlight ? "bg-white/15" : "bg-slate-50"}`}>
+                      <p className={`text-2xl font-bold ${p.highlight ? "text-white" : "text-slate-800"}`}>{p.fullDay?.price}</p>
+                      <p className={`text-xs mt-1 ${p.highlight ? "text-blue-200" : "text-slate-400"}`}>{p.fullDay?.detail}</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-end gap-1 mb-3">
+                    <span className={`text-4xl font-bold ${p.highlight ? "text-white" : "text-slate-800"}`}>
+                      {p.price}
+                    </span>
+                    <span className={`text-sm mb-1 ${p.highlight ? "text-blue-200" : "text-slate-400"}`}>
+                      {p.unit}
+                    </span>
+                  </div>
+                )}
                 <p className={`text-sm leading-relaxed mb-4 flex-1 ${p.highlight ? "text-blue-100" : "text-slate-500"}`}>
                   {p.description}
                 </p>
-                {p.savings && (
-                  <div className={`flex items-center gap-1.5 text-xs font-semibold rounded-lg px-3 py-2 ${
-                    p.highlight ? "bg-white/20 text-white" : "bg-green-50 text-green-700"
+                {p.promo && (
+                  <div className={`text-xs font-bold rounded-lg px-3 py-2 text-center ${
+                    p.highlight ? "bg-[#FFC000] text-slate-900" : "bg-[#FFC000]/20 text-amber-700"
                   }`}>
-                    <Check className="w-3.5 h-3.5 shrink-0" />
-                    {p.savings}
+                    {p.promo}
                   </div>
                 )}
               </motion.div>

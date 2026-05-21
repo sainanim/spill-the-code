@@ -50,7 +50,7 @@ const AnnouncementBanner = () => {
             <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-800" />
           </span>
           <span className="text-slate-800 text-xs font-semibold text-center leading-snug">
-            New location opening soon — Just in time for summer camps!
+            New location now open — Just in time for summer camps!
           </span>
         </div>
         <a href="/#new-location" className="text-slate-800 text-xs font-bold mt-0.5">
@@ -65,7 +65,7 @@ const AnnouncementBanner = () => {
           <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-800" />
         </span>
         <p className="text-slate-800 text-sm font-semibold text-center">
-          New location opening soon — Just in time for summer camps!
+          New location now open — Just in time for summer camps!
         </p>
         <a href="/#new-location" className="text-slate-800 text-sm font-bold whitespace-nowrap hover:underline underline-offset-2">
           Learn More →
