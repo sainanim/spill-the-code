@@ -19,6 +19,32 @@ const NewLocationSection: React.FC<NewLocationSectionProps> = ({ id }) => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [selectedEntrance, setSelectedEntrance] = useState<"A" | "B">("A");
+
+  const entranceDirections = {
+    A: {
+      label: "Mall Entrance A",
+      hint: "Main entrance — near the food court",
+      steps: [
+        "Enter through the main mall entrance near the food court.",
+        "Take the escalator up to the top floor.",
+        "Walk straight until you reach the centre of the mall.",
+        "Turn right at the first hallway.",
+        "Walk to the end of the hallway — we're the last store on the right.",
+      ],
+    },
+    B: {
+      label: "Mall Entrance B",
+      hint: "Entrance beside Tim Horton's",
+      steps: [
+        "Enter through the entrance beside Tim Horton's.",
+        "You're already on the top floor — no escalator needed.",
+        "Walk straight until you reach the centre of the mall.",
+        "Turn left at the first hallway.",
+        "Walk to the end of the hallway — we're the last store on the right.",
+      ],
+    },
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,16 +80,16 @@ const NewLocationSection: React.FC<NewLocationSectionProps> = ({ id }) => {
           className="text-center mb-14"
         >
           <span className="inline-block bg-[#FFC000]/20 text-[#1976D2] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5 border border-[#FFC000]/40">
-            Coming Soon
+            Grand Opening
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1976D2] mb-4 leading-tight">
-            We're Opening a New Location!
+            We've Opened a New Location!
           </h2>
           <p className="text-slate-500 text-lg sm:text-xl max-w-xl mx-auto mb-5">
             More space, more programs, same attention to detail.
           </p>
           <p className="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-            We're thrilled to be expanding! We're staying right here at Erin Mills Town Centre, but moving into a larger, upgraded space — designed from the ground up to give your child the most enriching learning experience possible.
+            We're thrilled to be expanding! We're still right here at Erin Mills Town Centre, but have moved into a larger, upgraded space — designed from the ground up to give your child the most enriching learning experience possible.
           </p>
         </motion.div>
 
@@ -147,7 +173,7 @@ const NewLocationSection: React.FC<NewLocationSectionProps> = ({ id }) => {
                 Just in time for summer camps!
               </p>
               <p className="text-blue-200 text-sm mb-5 leading-relaxed">
-                Coding, robotics, AI, math, english — our summer camps are launching at the new location. Spots fill fast.
+                Coding, robotics, AI, math, english, french — our summer camps are launching at the new location. Spots fill fast.
               </p>
               <Link
                 href="/summer-camps"
@@ -157,7 +183,7 @@ const NewLocationSection: React.FC<NewLocationSectionProps> = ({ id }) => {
               </Link>
             </motion.div>
 
-            {/* Notify me form */}
+            {/* Directions */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -165,50 +191,43 @@ const NewLocationSection: React.FC<NewLocationSectionProps> = ({ id }) => {
               transition={{ delay: 0.35 }}
               className="bg-slate-50 border border-slate-200 rounded-2xl p-6"
             >
-              <div className="flex items-center gap-2 mb-1">
-                <Bell className="w-5 h-5 text-[#1976D2]" />
-                <h3 className="text-[#1976D2] font-bold text-base">Get Notified</h3>
-              </div>
-              <p className="text-slate-500 text-sm mb-5">
-                Be the first to know when we open our doors.
+              <p className="text-[#1976D2] font-semibold mb-4 flex items-center gap-2">
+                <MapPin className="w-4 h-4" /> How to Find Us Inside the Mall
               </p>
 
-              {submitted ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="bg-green-50 border border-green-200 text-green-700 text-sm rounded-xl px-4 py-3 text-center font-medium"
-                >
-                  You're on the list! We'll reach out when we open.
-                </motion.div>
-              ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-                  <input
-                    type="text"
-                    placeholder="Your name"
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                    required
-                    className="w-full px-4 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1976D2]/30 focus:border-[#1976D2] transition"
-                  />
-                  <input
-                    type="email"
-                    placeholder="Your email address"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    required
-                    className="w-full px-4 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1976D2]/30 focus:border-[#1976D2] transition"
-                  />
+              {/* Entrance selector */}
+              <div className="flex gap-2 mb-5">
+                {(["A", "B"] as const).map((entrance) => (
                   <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full bg-[#1976D2] text-white font-semibold text-sm py-2.5 rounded-lg hover:bg-[#1565C0] transition-colors duration-200 disabled:opacity-60"
+                    key={entrance}
+                    onClick={() => setSelectedEntrance(entrance)}
+                    className={`flex-1 text-sm font-semibold py-2 rounded-full border transition-colors duration-200 ${
+                      selectedEntrance === entrance
+                        ? "bg-[#1976D2] text-white border-[#1976D2]"
+                        : "bg-white text-slate-600 border-slate-300 hover:border-[#1976D2] hover:text-[#1976D2]"
+                    }`}
                   >
-                    {loading ? "Sending..." : "Notify Me"}
+                    {entranceDirections[entrance].label}
                   </button>
-                </form>
-              )}
+                ))}
+              </div>
+
+              <p className="text-xs text-slate-400 mb-4 italic">
+                {entranceDirections[selectedEntrance].hint}
+              </p>
+
+              <ol className="flex flex-col gap-3">
+                {entranceDirections[selectedEntrance].steps.map((step, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <span className="shrink-0 w-6 h-6 rounded-full bg-[#FFC000]/20 text-[#1976D2] text-xs font-bold flex items-center justify-center mt-0.5">
+                      {i + 1}
+                    </span>
+                    <span className="text-slate-600 text-sm leading-relaxed">{step}</span>
+                  </li>
+                ))}
+              </ol>
             </motion.div>
+            
 
           </motion.div>
         </div>
