@@ -16,7 +16,7 @@ const teamData: TeamMember[] = [
   {
     id: 1,
     name: "Monica Sainani",
-    imageUrl: "/team/Monica.jpg",
+    imageUrl: "/team/Monica.jpeg",
     points: [
       "Monica is a graduate from the University of Toronto with degrees in Computer Science and Cognitive Science, with experience at tech companies like Cisco Systems.",
       "She's an advocate for learning that's personalized, meaningful, and accessible to all, having started coding young and found confidence through technology.",
@@ -28,7 +28,7 @@ const teamData: TeamMember[] = [
   {
     id: 2,
     name: "Mukesh S",
-    imageUrl: "/team/Mukesh.jpg",
+    imageUrl: "/team/Mukesh.jpeg",
     points: [
       "With over 15 years of experience in the field, he has led multiple research teams developing cutting-edge robotic applications for industry and education.",
       "He brings a wealth of practical knowledge in hardware integration, sensors, and embedded systems that complements our software-focused curriculum.",
