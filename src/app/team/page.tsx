@@ -8,7 +8,7 @@ export default function Home() {
     <>
       <main className="pt-2 bg-white">
         <MeetOurTeamSection />
-        <TeamCertificatesSection />
+        {/*< TeamCertificatesSection /> */}
       </main>
       
     </>

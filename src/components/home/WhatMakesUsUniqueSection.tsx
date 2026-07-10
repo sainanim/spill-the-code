@@ -7,20 +7,20 @@ const WhatMakesUsUniqueSection = () => {
   // Add responsive state
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
-  
+
   // Effect to handle responsive behavior
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 640);
       setIsTablet(window.innerWidth >= 640 && window.innerWidth < 1024);
     };
-    
+
     // Set initial state
     handleResize();
-    
+
     // Add event listener
     window.addEventListener('resize', handleResize);
-    
+
     // Cleanup
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -60,23 +60,23 @@ const WhatMakesUsUniqueSection = () => {
 
   // Adjust animation parameters based on device
   const itemVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: isMobile ? 15 : 20 
+    hidden: {
+      opacity: 0,
+      y: isMobile ? 15 : 20
     },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { 
-        duration: isMobile ? 0.5 : 0.6 
-      } 
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: isMobile ? 0.5 : 0.6
+      }
     }
   };
 
   return (
     <section className="py-10 sm:py-12 md:py-16 bg-[#E0F2F7]">
       <div className="container mx-auto px-4 sm:px-6">
-        <motion.h2 
+        <motion.h2
           initial={{ opacity: 0, y: isMobile ? 20 : 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
@@ -88,8 +88,8 @@ const WhatMakesUsUniqueSection = () => {
             <span className="absolute bottom-0 left-0 w-full h-1 bg-[#FFC000] translate-y-1"></span>
           </span>
         </motion.h2>
-        
-        <motion.div 
+
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -97,8 +97,8 @@ const WhatMakesUsUniqueSection = () => {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 max-w-7xl mx-auto"
         >
           {features.map((feature, index) => (
-            <motion.div 
-              key={index} 
+            <motion.div
+              key={index}
               variants={itemVariants}
               className="bg-[#FAF9F6] p-4 sm:p-5 md:p-6 rounded-lg shadow-md flex flex-col items-center text-center h-full border-t-4 border-[#FFC000]"
             >

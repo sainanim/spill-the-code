@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Bot, Sparkles } from "lucide-react";
+import { FaFutbol } from "react-icons/fa";
 
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -20,8 +22,22 @@ const HeroSection = () => {
     },
   };
 
+  const badgeVariants = {
+    hidden: { opacity: 0, x: 40, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      scale: 1,
+      transition: {
+        duration: 0.9,
+        delay: 0.9,
+        ease: [0.6, -0.05, 0.01, 0.99],
+      },
+    },
+  };
+
   return (
-    <section className="py-10 sm:py-16 md:py-20 bg-gradient-to-br from-blue-50 to-blue-100">
+    <section className="relative py-10 sm:py-16 md:py-20 bg-gradient-to-br from-blue-50 to-blue-100 overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center">
           <motion.div
@@ -63,6 +79,41 @@ const HeroSection = () => {
             </button>
 
           </div>
+
+          <motion.div
+            className="relative overflow-hidden mt-10 lg:mt-0 lg:absolute lg:top-40 xl:top-44 lg:right-10 xl:right-16 w-full max-w-sm lg:w-auto bg-white rounded-2xl shadow-xl border-2 border-yellow-400 p-5"
+            variants={badgeVariants}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+          >
+            <FaFutbol className="pointer-events-none absolute -bottom-6 -right-6 w-24 h-24 text-blue-100 rotate-12" aria-hidden="true" />
+            <Bot className="pointer-events-none absolute -top-4 -left-4 w-16 h-16 text-yellow-100 -rotate-12" strokeWidth={1.5} aria-hidden="true" />
+            <Sparkles className="pointer-events-none absolute top-1/2 right-2 w-10 h-10 text-blue-100" strokeWidth={1.5} aria-hidden="true" />
+
+            <div className="relative z-10">
+              <span className="inline-block px-3 py-1 bg-yellow-500 text-white text-xs font-bold rounded-full uppercase tracking-wide">
+                Free Event
+              </span>
+
+              <p className="mt-3 text-sm font-semibold text-blue-600">
+                July 16 &amp; July 23 &bull; 1&ndash;4 PM
+              </p>
+
+              <h3 className="mt-3 text-lg font-bold text-blue-600">
+                Soccer Robotics Day
+              </h3>
+
+              <ul className="mt-2 space-y-1 text-sm text-gray-600 list-disc list-inside">
+                <li className="lg:whitespace-nowrap">Build your own soccer team robotics kit</li>
+                <li className="lg:whitespace-nowrap">Make your own player card</li>
+                <li className="lg:whitespace-nowrap">Design your own soccer field with AI</li>
+              </ul>
+
+              <p className="mt-1 text-xs text-gray-500">
+                Enter a raffle to win a free robotics kit!
+              </p>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
