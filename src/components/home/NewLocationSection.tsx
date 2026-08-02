@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { MapPin, Bell, ArrowRight, Building2, BookOpen, Star } from "lucide-react";
+import { MapPin, ArrowRight, Building2, BookOpen, Star } from "lucide-react";
 
 interface NewLocationSectionProps {
   id?: string;
@@ -15,10 +15,6 @@ const features = [
 ];
 
 const NewLocationSection: React.FC<NewLocationSectionProps> = ({ id }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const [selectedEntrance, setSelectedEntrance] = useState<"A" | "B">("A");
 
   const entranceDirections = {
@@ -44,27 +40,6 @@ const NewLocationSection: React.FC<NewLocationSectionProps> = ({ id }) => {
         "Walk to the end of the hallway — we're the last store on the right.",
       ],
     },
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      await fetch("/api/send-enquiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          message: "Please notify me when the new Erin Mills Town Centre location opens.",
-        }),
-      });
-      setSubmitted(true);
-    } catch {
-      // silently fail — user sees no broken state
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (
@@ -96,13 +71,21 @@ const NewLocationSection: React.FC<NewLocationSectionProps> = ({ id }) => {
         {/* Two-column body */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
 
-          {/* Left — map + address */}
+          {/* Left — Ribbon cutting + map */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
+            <div className="relative w-full h-full flex items-center justify-center overflow-hidden rounded-2xl">
+              <img
+                src="/imgs/STC_Opening.JPG"
+                alt="Spill the Code grand opening"
+                className="max-w-full max-h-full object-contain p-2 rounded-2xl"
+                style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%' }}
+              />
+            </div>
             <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-100">
               <iframe
                 src="https://maps.google.com/maps?q=Erin+Mills+Town+Centre,+5100+Erin+Mills+Pkwy,+Mississauga,+ON&t=&z=15&ie=UTF8&iwloc=&output=embed"
@@ -116,7 +99,7 @@ const NewLocationSection: React.FC<NewLocationSectionProps> = ({ id }) => {
               />
             </div>
 
-            <motion.div
+            {/* <motion.div
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -128,11 +111,11 @@ const NewLocationSection: React.FC<NewLocationSectionProps> = ({ id }) => {
                 <p className="text-[#1976D2] font-semibold">Erin Mills Town Centre</p>
                 <p className="text-slate-500 text-sm">5100 Erin Mills Pkwy, Mississauga, ON L5M 4Z5</p>
               </div>
-            </motion.div>
+            </motion.div> */}
 
           </motion.div>
 
-          {/* Right — features + summer camps CTA + notify form */}
+          {/* Right — features + summer camps CTA + */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}

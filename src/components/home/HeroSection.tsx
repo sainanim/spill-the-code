@@ -80,7 +80,8 @@ const HeroSection = () => {
 
           </div>
 
-          <motion.div
+          {/* Badge icon code on Hero Section, useful if we're trying to advertise something directly on the main page */}
+          {/* <motion.div
             className="relative overflow-hidden mt-10 lg:mt-0 lg:absolute lg:top-40 xl:top-44 lg:right-10 xl:right-16 w-full max-w-sm lg:w-auto bg-white rounded-2xl shadow-xl border-2 border-yellow-400 p-5"
             variants={badgeVariants}
             initial="hidden"
@@ -113,7 +114,7 @@ const HeroSection = () => {
                 Enter a raffle to win a free robotics kit!
               </p>
             </div>
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
     </section>

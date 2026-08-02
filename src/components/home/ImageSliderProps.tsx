@@ -128,7 +128,7 @@ export default function ImageSlider({
 
         
         <div className="relative h-80 md:h-120 overflow-hidden rounded-lg shadow-lg border-4 border-blue-600 transition-all duration-300" style={{ boxShadow: '0 0 20px rgba(25, 118, 210, 0.3)' }}>
-          {/* Slider container - improved to prevent partial images */}
+          {/* Slider container */}
           <div 
             className="h-full w-full transition-transform duration-500 ease-out flex"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
