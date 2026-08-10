@@ -13,6 +13,9 @@
 # testing
 /coverage
 
+# order log insurance copy (contains customer PII, generated at runtime)
+/data
+
 # next.js
 /.next/
 /out/

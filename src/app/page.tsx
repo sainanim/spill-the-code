@@ -15,21 +15,21 @@ import ImageSlider from '@/components/home/ImageSliderProps';
 export default function Home() {
   return (
     <>
-      
+
       <main className=""> {/* Added padding-top to account for fixed header */}
         <HeroSection />
         {/*<EventSection id="event-section"/>*/}
         <NewLocationSection id="new-location" />
-        <AboutUsSection id="about-us"/>
+        <AboutUsSection id="about-us" />
         <DescriptionSection />
         <WhatMakesUsUniqueSection />
         {/* <ImageSlider/> */}
         {/* <TestimonialsSection /> */}
-        <OurMotto/>
+        <OurMotto />
         {/* <ExperienceSection/> */}
         <ContactUsSection id="contact-us" />
       </main>
-      
+
     </>
   );
 }
