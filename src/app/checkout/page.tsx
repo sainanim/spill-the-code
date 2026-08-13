@@ -9,10 +9,11 @@ interface CheckoutSuccess {
   orderCode: string;
   totalCents: number;
   customerEmailSent: boolean;
+  etransferEmail: string;
 }
 
 export default function CheckoutPage() {
-  const { resolvedItems, totalCents, clearCart } = useCart();
+  const { resolvedItems, totalCents, clearCart, hydrated } = useCart();
   const [clientRequestId, setClientRequestId] = useState("");
   const [formData, setFormData] = useState({
     name: "",
@@ -80,9 +81,15 @@ export default function CheckoutPage() {
         <div className="container mx-auto max-w-lg text-center bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
           <h1 className="text-2xl font-bold text-[var(--color-primary)] mb-3">Order received!</h1>
           <p className="text-[var(--text-secondary)] mb-6">
-            Please e-transfer <strong>{formatCents(success.totalCents)}</strong> and include reference
-            code <strong>{success.orderCode}</strong> in the message. We&apos;ll follow up by email to
-            coordinate scheduling.
+            Please e-transfer <strong>{formatCents(success.totalCents)}</strong>
+            {success.etransferEmail && (
+              <>
+                {" "}
+                to <strong>{success.etransferEmail}</strong>
+              </>
+            )}{" "}
+            and include reference code <strong>{success.orderCode}</strong> in the message.
+            We&apos;ll follow up by email to coordinate scheduling.
           </p>
           {!success.customerEmailSent && (
             <p className="text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 text-sm mb-6">
@@ -95,6 +102,17 @@ export default function CheckoutPage() {
           </Link>
         </div>
       </main>
+    );
+  }
+
+  // The persisted cart hasn't been read yet — render a neutral shell instead
+  // of flashing "Your cart is empty" at someone who navigated here directly.
+  if (!hydrated) {
+    return (
+      <main
+        className="min-h-screen bg-[var(--background-primary)] pt-32 pb-16 px-4"
+        aria-busy="true"
+      />
     );
   }
 

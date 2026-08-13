@@ -27,9 +27,9 @@ export interface CampOffering extends OfferingBase {
 export type Offering = CourseOffering | CampOffering;
 
 const LEVEL_PLACEHOLDER_PRICE_CENTS: Record<CourseOffering["level"], number> = {
-  beginner: 9900,
-  intermediate: 14900,
-  advanced: 19900,
+  beginner: 2500,
+  intermediate: 2500,
+  advanced: 2500,
 };
 
 const LEVEL_LABEL: Record<CourseOffering["level"], string> = {

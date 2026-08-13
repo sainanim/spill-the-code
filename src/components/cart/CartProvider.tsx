@@ -31,6 +31,9 @@ interface CartContextValue {
   resolvedItems: ResolvedCartItem[];
   itemCount: number;
   totalCents: number;
+  // False until the persisted cart has been read from localStorage — lets
+  // consumers hold a neutral state instead of flashing "cart is empty".
+  hydrated: boolean;
   addItem: (offeringId: string) => void;
   removeItem: (offeringId: string) => void;
   setQuantity: (offeringId: string, quantity: number) => void;
@@ -76,7 +79,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
       if (raw) {
         const parsed = JSON.parse(raw);
         if (isValidLineItems(parsed)) {
-          setItems(parsed);
+          // Clamp on the way in so a corrupted/tampered stored quantity can't
+          // render totals the server would reject anyway.
+          setItems(
+            parsed.map((item) => ({ ...item, quantity: Math.min(item.quantity, MAX_QUANTITY) }))
+          );
         }
       }
     } catch {
@@ -161,6 +168,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     resolvedItems,
     itemCount,
     totalCents,
+    hydrated,
     addItem,
     removeItem,
     setQuantity,

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
+import { getStore } from "@netlify/blobs";
 import { getOfferingById } from "@/lib/offerings";
 import { formatCents } from "@/lib/money";
 import { escapeHtml, sendMail } from "@/lib/mailer";
@@ -10,30 +9,57 @@ const MAX_QUANTITY = 20;
 const MAX_NAME_LENGTH = 200;
 const MAX_NOTES_LENGTH = 2000;
 const MAX_PHONE_LENGTH = 50;
+const MAX_EMAIL_LENGTH = 254; // RFC 5321 limit
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
-// Resets on cold start/restart — acceptable at this scale, see plan.
-const rateLimitBuckets = new Map<string, { count: number; windowStart: number }>();
 
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const bucket = rateLimitBuckets.get(ip);
-  if (!bucket || now - bucket.windowStart > RATE_LIMIT_WINDOW_MS) {
-    rateLimitBuckets.set(ip, { count: 1, windowStart: now });
+interface RateLimitBucket {
+  count: number;
+  windowStart: number;
+}
+
+// Backed by Netlify Blobs so the count is shared across every function
+// instance handling requests, instead of living in one instance's memory
+// (which Netlify can throw away or run several of in parallel).
+// Best-effort only: Blobs reads are eventually consistent and this
+// read-modify-write isn't atomic, so a tight burst can slip past the cap.
+async function isRateLimited(ip: string): Promise<boolean> {
+  try {
+    const store = getStore("checkout-rate-limits");
+    const key = ip.replace(/[^a-zA-Z0-9.:_-]/g, "_");
+    const now = Date.now();
+    const existing = await store.get(key, { type: "json" }) as RateLimitBucket | null;
+
+    if (!existing || now - existing.windowStart > RATE_LIMIT_WINDOW_MS) {
+      await store.setJSON(key, { count: 1, windowStart: now });
+      return false;
+    }
+
+    const updatedCount = existing.count + 1;
+    await store.setJSON(key, { count: updatedCount, windowStart: existing.windowStart });
+    return updatedCount > RATE_LIMIT_MAX_REQUESTS;
+  } catch (error) {
+    // Fail open — a Blobs hiccup should never block a real customer's order.
+    console.error("Rate limit check failed (allowing request):", error);
     return false;
   }
-  bucket.count += 1;
-  return bucket.count > RATE_LIMIT_MAX_REQUESTS;
 }
+
+// Excludes ambiguous characters (0/O, 1/I/L) — customers retype this code
+// into their e-transfer message. Crypto-random 6 chars keeps the chance of a
+// same-day collision (which would overwrite an order record) negligible.
+const ORDER_CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 
 function generateOrderCode(): string {
   const now = new Date();
   const datePart = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(
     now.getDate()
   ).padStart(2, "0")}`;
-  const randomPart = Math.random().toString(36).slice(2, 6).toUpperCase();
+  const bytes = new Uint8Array(6);
+  crypto.getRandomValues(bytes);
+  const randomPart = Array.from(bytes, (b) => ORDER_CODE_ALPHABET[b % ORDER_CODE_ALPHABET.length]).join("");
   return `STC-${datePart}-${randomPart}`;
 }
 
@@ -45,20 +71,69 @@ interface ResolvedLine {
   lineTotalCents: number;
 }
 
-async function appendOrderLog(record: unknown) {
+// Best-effort insurance copy only — never blocks the order. Stored in Netlify
+// Blobs (not the local filesystem) so it actually survives past the single
+// request that wrote it, instead of vanishing with the function instance.
+async function saveOrderRecord(orderCode: string, record: unknown) {
   try {
-    const dir = path.join(process.cwd(), "data");
-    await fs.mkdir(dir, { recursive: true });
-    await fs.appendFile(path.join(dir, "orders.log.jsonl"), JSON.stringify(record) + "\n", "utf8");
+    const store = getStore("orders");
+    await store.setJSON(orderCode, record);
   } catch (error) {
-    // Best-effort insurance copy only — never blocks the order.
-    console.error("Failed to write order log (non-fatal):", error);
+    console.error("Failed to save order record (non-fatal):", error);
+  }
+}
+
+interface CheckoutSuccessResponse {
+  ok: true;
+  orderCode: string;
+  totalCents: number;
+  customerEmailSent: boolean;
+  etransferEmail: string;
+}
+
+function idempotencyKey(clientRequestId: string): string {
+  return clientRequestId.replace(/[^a-zA-Z0-9_-]/g, "_");
+}
+
+// Dedupes retries of the same submission (network timeout → user resubmits):
+// a successful order is remembered under its clientRequestId, and a repeat
+// request gets the original response back instead of a second order and a
+// second round of emails. Best-effort — a Blobs failure means we process
+// normally, which at worst duplicates an order a human can reconcile.
+async function findPreviousResponse(
+  clientRequestId: string
+): Promise<CheckoutSuccessResponse | null> {
+  if (!clientRequestId) return null;
+  try {
+    const store = getStore("checkout-idempotency");
+    return (await store.get(idempotencyKey(clientRequestId), {
+      type: "json",
+    })) as CheckoutSuccessResponse | null;
+  } catch (error) {
+    console.error("Idempotency lookup failed (treating as new request):", error);
+    return null;
+  }
+}
+
+async function rememberResponse(clientRequestId: string, response: CheckoutSuccessResponse) {
+  if (!clientRequestId) return;
+  try {
+    const store = getStore("checkout-idempotency");
+    await store.setJSON(idempotencyKey(clientRequestId), response);
+  } catch (error) {
+    console.error("Failed to store idempotency record (non-fatal):", error);
   }
 }
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  if (isRateLimited(ip)) {
+  // x-nf-client-connection-ip is set by Netlify itself and can't be forged by
+  // the client; x-forwarded-for (spoofable) is only a fallback for other hosts
+  // and local dev, so the rate limit can't be bypassed with a fabricated header.
+  const ip =
+    req.headers.get("x-nf-client-connection-ip")?.trim() ||
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    "unknown";
+  if (await isRateLimited(ip)) {
     return NextResponse.json(
       { ok: false, message: "Too many requests. Please try again later." },
       { status: 429 }
@@ -83,7 +158,8 @@ export async function POST(req: NextRequest) {
   }
 
   const name = typeof data.name === "string" ? data.name.trim().slice(0, MAX_NAME_LENGTH) : "";
-  const email = typeof data.email === "string" ? data.email.trim() : "";
+  const email =
+    typeof data.email === "string" ? data.email.trim().slice(0, MAX_EMAIL_LENGTH) : "";
   const phone = typeof data.phone === "string" ? data.phone.trim().slice(0, MAX_PHONE_LENGTH) : "";
   const notes = typeof data.notes === "string" ? data.notes.trim().slice(0, MAX_NOTES_LENGTH) : "";
   const clientRequestId =
@@ -96,6 +172,11 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const previousResponse = await findPreviousResponse(clientRequestId);
+  if (previousResponse) {
+    return NextResponse.json(previousResponse);
+  }
+
   const rawItems = Array.isArray(data.items) ? data.items : [];
   if (rawItems.length === 0 || rawItems.length > MAX_LINE_ITEMS) {
     return NextResponse.json(
@@ -106,23 +187,30 @@ export async function POST(req: NextRequest) {
 
   // Re-resolve every id against the canonical offerings data — the request
   // never carries a price/title, so there is nothing here to tamper with.
+  // Any line that fails to resolve rejects the whole order rather than being
+  // silently dropped: proceeding with a subset would charge the customer a
+  // different total than their cart showed.
   const resolvedLines: ResolvedLine[] = [];
   for (const raw of rawItems) {
-    if (typeof raw !== "object" || raw === null) continue;
-    const item = raw as Record<string, unknown>;
+    const item = (typeof raw === "object" && raw !== null ? raw : {}) as Record<string, unknown>;
     const offeringId = typeof item.offeringId === "string" ? item.offeringId : "";
     const quantity = item.quantity;
+    const offering = offeringId ? getOfferingById(offeringId) : undefined;
     if (
-      !offeringId ||
+      !offering ||
       !Number.isInteger(quantity) ||
       (quantity as number) <= 0 ||
       (quantity as number) > MAX_QUANTITY
     ) {
-      continue;
+      return NextResponse.json(
+        {
+          ok: false,
+          message:
+            "Some items in your cart are no longer available. Please refresh the page and try again.",
+        },
+        { status: 400 }
+      );
     }
-
-    const offering = getOfferingById(offeringId);
-    if (!offering) continue; // stale/unknown id — silently dropped, same as the cart itself
 
     resolvedLines.push({
       offeringId,
@@ -133,21 +221,19 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  if (resolvedLines.length === 0) {
-    return NextResponse.json(
-      {
-        ok: false,
-        message: "None of the items in your cart are available anymore. Please refresh and try again.",
-      },
-      { status: 400 }
-    );
-  }
-
   const totalCents = resolvedLines.reduce((sum, line) => sum + line.lineTotalCents, 0);
   const orderCode = generateOrderCode();
   const etransferTo = process.env.ETRANSFER_RECEIVER_EMAIL || process.env.EMAIL_RECEIVER || "";
 
-  await appendOrderLog({
+  if (!etransferTo) {
+    console.error("No EMAIL_RECEIVER/ETRANSFER_RECEIVER_EMAIL configured — cannot deliver order notification.");
+    return NextResponse.json(
+      { ok: false, message: "We couldn't process your order right now. Please try again or contact us directly." },
+      { status: 500 }
+    );
+  }
+
+  await saveOrderRecord(orderCode, {
     orderCode,
     clientRequestId,
     timestamp: new Date().toISOString(),
@@ -181,14 +267,6 @@ export async function POST(req: NextRequest) {
     <p>Reference code: <strong>${escapeHtml(orderCode)}</strong></p>
     ${clientRequestId ? `<p style="color:#999;font-size:12px;">Client request id: ${escapeHtml(clientRequestId)}</p>` : ""}
   `;
-
-  if (!etransferTo) {
-    console.error("No EMAIL_RECEIVER/ETRANSFER_RECEIVER_EMAIL configured — cannot deliver order notification.");
-    return NextResponse.json(
-      { ok: false, message: "We couldn't process your order right now. Please try again or contact us directly." },
-      { status: 500 }
-    );
-  }
 
   try {
     await sendMail({
@@ -229,5 +307,16 @@ export async function POST(req: NextRequest) {
     customerEmailSent = false;
   }
 
-  return NextResponse.json({ ok: true, orderCode, totalCents, customerEmailSent });
+  // etransferEmail is included so the success page can show where to send the
+  // payment — otherwise a customer whose confirmation email failed would have
+  // the amount and reference code but no destination address.
+  const responsePayload: CheckoutSuccessResponse = {
+    ok: true,
+    orderCode,
+    totalCents,
+    customerEmailSent,
+    etransferEmail: etransferTo,
+  };
+  await rememberResponse(clientRequestId, responsePayload);
+  return NextResponse.json(responsePayload);
 }

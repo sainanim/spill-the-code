@@ -13,9 +13,6 @@
 # testing
 /coverage
 
-# order log insurance copy (contains customer PII, generated at runtime)
-/data
-
 # next.js
 /.next/
 /out/
@@ -38,6 +35,9 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# netlify
+.netlify
 
 # typescript
 *.tsbuildinfo

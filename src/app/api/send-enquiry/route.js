@@ -52,8 +52,9 @@ export async function POST(req) {
     );
   } catch (error) {
     console.error("Error sending email:", error);
-    return new Response(JSON.stringify({ message: error.message || error }), {
-      status: 500,
-    });
+    return new Response(
+      JSON.stringify({ message: "Unable to send your message right now. Please try again later." }),
+      { status: 500 }
+    );
   }
 }
