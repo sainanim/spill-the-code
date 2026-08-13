@@ -24,6 +24,7 @@ export async function sendMail(options: {
   subject: string;
   html: string;
   from?: string;
+  replyTo?: string;
 }) {
   const transporter = getTransporter();
   return transporter.sendMail({
@@ -31,5 +32,6 @@ export async function sendMail(options: {
     to: options.to,
     subject: options.subject,
     html: options.html,
+    replyTo: options.replyTo,
   });
 }

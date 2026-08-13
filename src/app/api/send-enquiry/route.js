@@ -1,5 +1,7 @@
 import { escapeHtml, sendMail } from "@/lib/mailer";
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export async function POST(req) {
   try {
     const body = await req.json();
@@ -10,6 +12,17 @@ export async function POST(req) {
       return new Response(
         JSON.stringify({ message: "Please fill in all fields." }),
         { status: 400 }
+      );
+    }
+
+    // Without a destination, nodemailer fails with an opaque "No recipients
+    // defined" — name the misconfiguration here so it's obvious in the logs.
+    const receiver = process.env.EMAIL_RECEIVER;
+    if (!receiver) {
+      console.error("No EMAIL_RECEIVER configured — cannot deliver enquiry notification.");
+      return new Response(
+        JSON.stringify({ message: "Unable to send your message right now. Please try again later." }),
+        { status: 500 }
       );
     }
 
@@ -39,7 +52,11 @@ export async function POST(req) {
 
     await sendMail({
       from: `"Website Enquiry" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_RECEIVER,
+      to: receiver,
+      // The raw address, not the HTML-escaped copy — this is a header, not
+      // markup. Set only when it parses as an address, so a malformed value
+      // can't end up in the header block.
+      replyTo: EMAIL_REGEX.test(email) ? email : undefined,
       subject: safeCourse
         ? `New Enquiry for Course: ${safeCourse}`
         : "New Contact Us Form Submission",
