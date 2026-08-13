@@ -90,7 +90,7 @@ export default function CoursesPage() {
   return (
     <>
     <div className="min-h-screen bg-[#EOF2F7] px-5">
-      <main className="container mx-auto py-10 px-4">
+      <main className="container mx-auto px-4">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

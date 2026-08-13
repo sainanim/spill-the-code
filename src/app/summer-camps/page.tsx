@@ -133,7 +133,7 @@ export default function SummerCampsPage() {
     <main className="bg-[var(--background-primary)] min-h-screen">
 
       {/* Hero */}
-      <section className="pt-32 pb-16 bg-white">
+      <section className="pb-16 bg-white">
         <div className="container mx-auto px-4 sm:px-8 lg:px-12 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

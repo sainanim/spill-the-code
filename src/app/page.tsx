@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <>
 
-      <main className=""> {/* Added padding-top to account for fixed header */}
+      <main className="">
         <HeroSection />
         {/*<EventSection id="event-section"/>*/}
         <NewLocationSection id="new-location" />

@@ -77,7 +77,7 @@ export default function CheckoutPage() {
 
   if (success) {
     return (
-      <main className="min-h-screen bg-[var(--background-primary)] pt-32 pb-16 px-4">
+      <main className="min-h-screen bg-[var(--background-primary)] pb-16 px-4">
         <div className="container mx-auto max-w-lg text-center bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
           <h1 className="text-2xl font-bold text-[var(--color-primary)] mb-3">Order received!</h1>
           <p className="text-[var(--text-secondary)] mb-6">
@@ -110,7 +110,7 @@ export default function CheckoutPage() {
   if (!hydrated) {
     return (
       <main
-        className="min-h-screen bg-[var(--background-primary)] pt-32 pb-16 px-4"
+        className="min-h-screen bg-[var(--background-primary)] pb-16 px-4"
         aria-busy="true"
       />
     );
@@ -118,7 +118,7 @@ export default function CheckoutPage() {
 
   if (resolvedItems.length === 0) {
     return (
-      <main className="min-h-screen bg-[var(--background-primary)] pt-32 pb-16 px-4">
+      <main className="min-h-screen bg-[var(--background-primary)] pb-16 px-4">
         <div className="container mx-auto max-w-lg text-center bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
           <h1 className="text-2xl font-bold text-[var(--color-primary)] mb-3">Your cart is empty</h1>
           <p className="text-[var(--text-secondary)] mb-6">
@@ -138,7 +138,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[var(--background-primary)] pt-32 pb-16 px-4">
+    <main className="min-h-screen bg-[var(--background-primary)] pb-16 px-4">
       <div className="container mx-auto max-w-3xl grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
           <h1 className="text-xl font-bold text-[var(--color-primary)] mb-4">Order Summary</h1>
