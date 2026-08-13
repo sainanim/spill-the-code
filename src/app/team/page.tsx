@@ -6,7 +6,7 @@ import TeamCertificatesSection from '@/components/team/TeamCertificatesSection';
 export default function Home() {
   return (
     <>
-      <main className="pt-2 bg-white">
+      <main className="bg-white">
         <MeetOurTeamSection />
         {/*< TeamCertificatesSection /> */}
       </main>

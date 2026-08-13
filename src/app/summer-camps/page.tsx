@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Code, Calculator, BookOpen, Cpu, Clock, Calendar, CalendarDays, Mail, Globe } from "lucide-react";
+import { useCart } from "@/components/cart/CartProvider";
 
 const subjects = [
   {
@@ -48,9 +49,10 @@ const pricing = [
     unit: "/ hour",
     description: "Pay as you go — perfect for trying us out.",
     highlight: false,
-    halfDay: null as null | { price: string; detail: string },
-    fullDay: null as null | { price: string; detail: string },
+    halfDay: null as null | { price: string; detail: string; offeringId: string },
+    fullDay: null as null | { price: string; detail: string; offeringId: string },
     promo: null as string | null,
+    offeringId: "camp-hourly" as string | null,
   },
   {
     label: "Daily",
@@ -58,9 +60,10 @@ const pricing = [
     unit: "/ day",
     description: "A full day of focused learning — 8 hours of hands-on instruction.",
     highlight: false,
-    halfDay: null as null | { price: string; detail: string },
-    fullDay: null as null | { price: string; detail: string },
+    halfDay: null as null | { price: string; detail: string; offeringId: string },
+    fullDay: null as null | { price: string; detail: string; offeringId: string },
     promo: null as string | null,
+    offeringId: "camp-daily" as string | null,
   },
   {
     label: "Weekly",
@@ -68,9 +71,10 @@ const pricing = [
     unit: null,
     description: "5 days — the most popular choice for the summer.",
     highlight: false,
-    halfDay: { price: "$200", detail: "Half Day" },
-    fullDay: { price: "$300", detail: "Full Day" },
+    halfDay: { price: "$200", detail: "Half Day", offeringId: "camp-weekly-halfday" },
+    fullDay: { price: "$300", detail: "Full Day", offeringId: "camp-weekly-fullday" },
     promo: null as string | null,
+    offeringId: null as string | null,
   },
   {
     label: "Monthly",
@@ -78,9 +82,10 @@ const pricing = [
     unit: null,
     description: "4 weeks of continuous growth, progress, and fun.",
     highlight: true,
-    halfDay: { price: "$800", detail: "Half Day" },
-    fullDay: { price: "$1,200", detail: "Full Day" },
+    halfDay: { price: "$800", detail: "Half Day", offeringId: "camp-monthly-halfday" },
+    fullDay: { price: "$1,200", detail: "Full Day", offeringId: "camp-monthly-fullday" },
     promo: "Get 10% off if you sign up for the monthly schedule today!",
+    offeringId: null as string | null,
   },
 ];
 
@@ -92,6 +97,7 @@ const scheduleFeatures = [
 ];
 
 export default function SummerCampsPage() {
+  const { addItem } = useCart();
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -127,7 +133,7 @@ export default function SummerCampsPage() {
     <main className="bg-[var(--background-primary)] min-h-screen">
 
       {/* Hero */}
-      <section className="pt-32 pb-16 bg-white">
+      <section className="pb-16 bg-white">
         <div className="container mx-auto px-4 sm:px-8 lg:px-12 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -268,6 +274,42 @@ export default function SummerCampsPage() {
                 <p className={`text-sm leading-relaxed mb-4 flex-1 ${p.highlight ? "text-blue-100" : "text-slate-500"}`}>
                   {p.description}
                 </p>
+                {p.offeringId && (
+                  <button
+                    onClick={() => addItem(p.offeringId as string)}
+                    className={`w-full text-sm font-semibold py-2.5 rounded-lg transition-colors mb-3 ${
+                      p.highlight
+                        ? "bg-white text-[#1976D2] hover:bg-blue-50"
+                        : "bg-[#1976D2] text-white hover:bg-[#1565C0]"
+                    }`}
+                  >
+                    Add to Cart
+                  </button>
+                )}
+                {p.halfDay && p.fullDay && (
+                  <div className="grid grid-cols-2 gap-2 mb-3">
+                    <button
+                      onClick={() => addItem(p.halfDay!.offeringId)}
+                      className={`text-sm font-semibold py-2.5 rounded-lg transition-colors ${
+                        p.highlight
+                          ? "bg-white text-[#1976D2] hover:bg-blue-50"
+                          : "bg-[#1976D2] text-white hover:bg-[#1565C0]"
+                      }`}
+                    >
+                      Add Half Day
+                    </button>
+                    <button
+                      onClick={() => addItem(p.fullDay!.offeringId)}
+                      className={`text-sm font-semibold py-2.5 rounded-lg transition-colors ${
+                        p.highlight
+                          ? "bg-white text-[#1976D2] hover:bg-blue-50"
+                          : "bg-[#1976D2] text-white hover:bg-[#1565C0]"
+                      }`}
+                    >
+                      Add Full Day
+                    </button>
+                  </div>
+                )}
                 {p.promo && (
                   <div className={`text-xs font-bold rounded-lg px-3 py-2 text-center ${
                     p.highlight ? "bg-[#FFC000] text-slate-900" : "bg-[#FFC000]/20 text-amber-700"

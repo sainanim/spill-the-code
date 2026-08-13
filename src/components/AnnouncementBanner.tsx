@@ -3,22 +3,8 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 const AnnouncementBanner = () => {
-  const [scrolled, setScrolled] = useState(false);
   const [nearNewLocation, setNearNewLocation] = useState(false);
   const pathname = usePathname();
-
-
-  // scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      setScrolled(current => (current !== isScrolled ? isScrolled : current));
-    };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   // intersection observer
   useEffect(() => {
@@ -38,9 +24,8 @@ const AnnouncementBanner = () => {
 
   return (
     <div
-      className={`fixed left-0 right-0 z-40 w-full bg-[#FFC000] py-1.5 px-4 transition-all duration-300 ${
-        scrolled ? "top-14" : "top-[4.5rem]"
-      } ${nearNewLocation ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+      className={`w-full bg-[#FFC000] py-1.5 px-4 transition-all duration-300
+         ${nearNewLocation ? "opacity-0 pointer-events-none" : "opacity-100"}`}
     >
       {/* Mobile */}
       <div className="flex flex-col items-center sm:hidden">

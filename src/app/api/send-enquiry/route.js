@@ -1,13 +1,4 @@
-import nodemailer from "nodemailer";
-
-function escapeHtml(str) {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
+import { escapeHtml, sendMail } from "@/lib/mailer";
 
 export async function POST(req) {
   try {
@@ -26,14 +17,6 @@ export async function POST(req) {
     const safeEmail = escapeHtml(email);
     const safeMessage = escapeHtml(message).replace(/\n/g, "<br>");
     const safeCourse = course ? escapeHtml(course) : null;
-
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
 
     let htmlBody;
 
@@ -54,16 +37,14 @@ export async function POST(req) {
       `;
     }
 
-    const mailOptions = {
+    await sendMail({
       from: `"Website Enquiry" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_RECEIVER,
       subject: safeCourse
         ? `New Enquiry for Course: ${safeCourse}`
         : "New Contact Us Form Submission",
       html: htmlBody,
-    };
-
-    await transporter.sendMail(mailOptions);
+    });
 
     return new Response(
       JSON.stringify({ message: "Email sent successfully" }),
@@ -71,8 +52,9 @@ export async function POST(req) {
     );
   } catch (error) {
     console.error("Error sending email:", error);
-    return new Response(JSON.stringify({ message: error.message || error }), {
-      status: 500,
-    });
+    return new Response(
+      JSON.stringify({ message: "Unable to send your message right now. Please try again later." }),
+      { status: 500 }
+    );
   }
 }
