@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useRef } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -379,11 +379,6 @@ function CourseLevel({ title, description, topics, level, offeringId }: CourseLe
             <span className="text-xl font-bold text-[var(--text-primary)]">
               {formatCents(offering.priceCents)}
             </span>
-            {offering.isPlaceholderPrice && (
-              <span className="text-xs text-[var(--text-secondary)]">
-                Estimated — final pricing TBD
-              </span>
-            )}
           </div>
         )}
         <ul className="space-y-2 mb-6 flex-1">

@@ -3,6 +3,15 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Code, Calculator, BookOpen, Cpu, Clock, Calendar, CalendarDays, Mail, Globe } from "lucide-react";
 import { useCart } from "@/components/cart/CartProvider";
+import { getOfferingById, type CampOffering } from "@/lib/offerings";
+
+function formatPrice(cents: number): string {
+  return `$${(cents / 100).toLocaleString("en-US")}`;
+}
+
+function campOffering(id: string): CampOffering {
+  return getOfferingById(id) as CampOffering;
+}
 
 const subjects = [
   {
@@ -45,45 +54,37 @@ const subjects = [
 const pricing = [
   {
     label: "Hourly",
-    price: "$20",
-    unit: "/ hour",
     description: "Pay as you go — perfect for trying us out.",
     highlight: false,
-    halfDay: null as null | { price: string; detail: string; offeringId: string },
-    fullDay: null as null | { price: string; detail: string; offeringId: string },
+    halfDay: null as null | { detail: string; offeringId: string },
+    fullDay: null as null | { detail: string; offeringId: string },
     promo: null as string | null,
     offeringId: "camp-hourly" as string | null,
   },
   {
     label: "Daily",
-    price: "$75",
-    unit: "/ day",
     description: "A full day of focused learning — 8 hours of hands-on instruction.",
     highlight: false,
-    halfDay: null as null | { price: string; detail: string; offeringId: string },
-    fullDay: null as null | { price: string; detail: string; offeringId: string },
+    halfDay: null as null | { detail: string; offeringId: string },
+    fullDay: null as null | { detail: string; offeringId: string },
     promo: null as string | null,
     offeringId: "camp-daily" as string | null,
   },
   {
     label: "Weekly",
-    price: null,
-    unit: null,
     description: "5 days — the most popular choice for the summer.",
     highlight: false,
-    halfDay: { price: "$200", detail: "Half Day", offeringId: "camp-weekly-halfday" },
-    fullDay: { price: "$300", detail: "Full Day", offeringId: "camp-weekly-fullday" },
+    halfDay: { detail: "Half Day", offeringId: "camp-weekly-halfday" },
+    fullDay: { detail: "Full Day", offeringId: "camp-weekly-fullday" },
     promo: null as string | null,
     offeringId: null as string | null,
   },
   {
     label: "Monthly",
-    price: null,
-    unit: null,
     description: "4 weeks of continuous growth, progress, and fun.",
     highlight: true,
-    halfDay: { price: "$800", detail: "Half Day", offeringId: "camp-monthly-halfday" },
-    fullDay: { price: "$1,200", detail: "Full Day", offeringId: "camp-monthly-fullday" },
+    halfDay: { detail: "Half Day", offeringId: "camp-monthly-halfday" },
+    fullDay: { detail: "Full Day", offeringId: "camp-monthly-fullday" },
     promo: "Get 10% off if you sign up for the monthly schedule today!",
     offeringId: null as string | null,
   },
@@ -140,9 +141,6 @@ export default function SummerCampsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <span className="inline-block bg-[#FFC000]/20 text-[#1976D2] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5 border border-[#FFC000]/40">
-              Summer 2026
-            </span>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#1976D2] mb-6 leading-tight">
               Summer Camps
             </h1>
@@ -229,7 +227,11 @@ export default function SummerCampsPage() {
           </motion.p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-            {pricing.map((p, i) => (
+            {pricing.map((p, i) => {
+              const mainOffering = p.offeringId ? campOffering(p.offeringId) : null;
+              const halfDayOffering = p.halfDay ? campOffering(p.halfDay.offeringId) : null;
+              const fullDayOffering = p.fullDay ? campOffering(p.fullDay.offeringId) : null;
+              return (
               <motion.div
                 key={p.label}
                 initial={{ opacity: 0, y: 20 }}
@@ -253,21 +255,21 @@ export default function SummerCampsPage() {
                 {p.halfDay ? (
                   <div className="grid grid-cols-2 gap-2 mb-3">
                     <div className={`rounded-xl p-3 text-center ${p.highlight ? "bg-white/15" : "bg-slate-50"}`}>
-                      <p className={`text-2xl font-bold ${p.highlight ? "text-white" : "text-slate-800"}`}>{p.halfDay.price}</p>
+                      <p className={`text-2xl font-bold ${p.highlight ? "text-white" : "text-slate-800"}`}>{formatPrice(halfDayOffering!.priceCents)}</p>
                       <p className={`text-xs mt-1 ${p.highlight ? "text-blue-200" : "text-slate-400"}`}>{p.halfDay.detail}</p>
                     </div>
                     <div className={`rounded-xl p-3 text-center ${p.highlight ? "bg-white/15" : "bg-slate-50"}`}>
-                      <p className={`text-2xl font-bold ${p.highlight ? "text-white" : "text-slate-800"}`}>{p.fullDay?.price}</p>
+                      <p className={`text-2xl font-bold ${p.highlight ? "text-white" : "text-slate-800"}`}>{formatPrice(fullDayOffering!.priceCents)}</p>
                       <p className={`text-xs mt-1 ${p.highlight ? "text-blue-200" : "text-slate-400"}`}>{p.fullDay?.detail}</p>
                     </div>
                   </div>
                 ) : (
                   <div className="flex items-end gap-1 mb-3">
                     <span className={`text-4xl font-bold ${p.highlight ? "text-white" : "text-slate-800"}`}>
-                      {p.price}
+                      {mainOffering ? formatPrice(mainOffering.priceCents) : null}
                     </span>
                     <span className={`text-sm mb-1 ${p.highlight ? "text-blue-200" : "text-slate-400"}`}>
-                      {p.unit}
+                      {mainOffering?.unit}
                     </span>
                   </div>
                 )}
@@ -318,7 +320,8 @@ export default function SummerCampsPage() {
                   </div>
                 )}
               </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

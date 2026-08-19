@@ -34,7 +34,7 @@ interface CartContextValue {
   // False until the persisted cart has been read from localStorage — lets
   // consumers hold a neutral state instead of flashing "cart is empty".
   hydrated: boolean;
-  addItem: (offeringId: string) => void;
+  addItem: (offeringId: string, quantity?: number) => void;
   removeItem: (offeringId: string) => void;
   setQuantity: (offeringId: string, quantity: number) => void;
   clearCart: () => void;
@@ -104,19 +104,22 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [items, hydrated]);
 
-  const addItem = (offeringId: string) => {
+  // quantity lets the product detail page add several at once; the cart and
+  // course pages call this with no second argument and still add one.
+  const addItem = (offeringId: string, quantity: number = 1) => {
     const offering = getOfferingById(offeringId);
     if (!offering) return;
+    const toAdd = Math.min(Math.max(Math.trunc(quantity), 1), MAX_QUANTITY);
     setItems((prev) => {
       const existing = prev.find((item) => item.offeringId === offeringId);
       if (existing) {
         return prev.map((item) =>
           item.offeringId === offeringId
-            ? { ...item, quantity: Math.min(item.quantity + 1, MAX_QUANTITY) }
+            ? { ...item, quantity: Math.min(item.quantity + toAdd, MAX_QUANTITY) }
             : item
         );
       }
-      return [...prev, { offeringId, quantity: 1 }];
+      return [...prev, { offeringId, quantity: toAdd }];
     });
 
     // A brief toast confirms the add without interrupting browsing the way

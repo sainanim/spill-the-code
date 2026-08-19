@@ -148,11 +148,6 @@ export default function CheckoutPage() {
                 <span className="text-[var(--text-primary)]">
                   {item.shortLabel}{" "}
                   <span className="text-[var(--text-secondary)]">× {item.quantity}</span>
-                  {item.isPlaceholderPrice && (
-                    <span className="block text-xs text-[var(--text-secondary)]">
-                      Estimated — final pricing TBD
-                    </span>
-                  )}
                 </span>
                 <span className="font-medium whitespace-nowrap">{formatCents(item.lineTotalCents)}</span>
               </div>

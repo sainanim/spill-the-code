@@ -4,33 +4,46 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import CartButton from '@/components/cart/CartButton';
 
+// Collapsing the header shortens the document, which nudges the scroll position
+// back up. With a single threshold that nudge flips the state straight back and
+// the header oscillates, so expanding uses a lower mark than collapsing. The gap
+// between them has to stay wider than the height the header gives up (~16px).
+const COLLAPSE_AT = 80;
+const EXPAND_AT = 24;
+
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    // Define the scroll handler
+    let frame = 0;
+
+    const readScroll = () => {
+      frame = 0;
+      const y = window.scrollY;
+      // Only update state if it actually changes to prevent unnecessary re-renders.
+      setScrolled(currentScrolled =>
+        currentScrolled ? y > EXPAND_AT : y > COLLAPSE_AT
+      );
+    };
+
+    // Coalesce bursts of scroll events into one read per frame, so the header
+    // settles on a single state instead of thrashing mid-transition.
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      // Only update state if it actually changes to prevent unnecessary re-renders
-      // and an infinite loop if setScrolled was in dependencies for this.
-      setScrolled(currentScrolled => {
-        if (currentScrolled !== isScrolled) {
-          return isScrolled;
-        }
-        return currentScrolled;
-      });
+      if (frame) return;
+      frame = requestAnimationFrame(readScroll);
     };
 
     // Call it once on mount to set the initial scroll state
-    handleScroll();
+    readScroll();
 
     // Add event listener
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     // Cleanup function to remove event listener when the component unmounts
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      if (frame) cancelAnimationFrame(frame);
     };
   }, []); // Empty dependency array: effect runs only on mount and unmount
 
@@ -39,11 +52,12 @@ const Header = () => {
     { name: 'Courses', href: '/courses' },
     { name: 'About Us', href: '/#about-us' },
     { name: 'Summer Camps', href: '/summer-camps' },
+    { name: 'Store', href: 'store'},
     { name: 'Contact Us', href: '/#contact-us' }
   ];
   return (
     <header 
-      className={`transition-all duration-300 ${
+      className={`transition-[padding,background-color,box-shadow] duration-300 ${
         scrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'
       }`}
     >
