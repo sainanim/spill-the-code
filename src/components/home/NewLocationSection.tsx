@@ -82,6 +82,8 @@ const NewLocationSection: React.FC<NewLocationSectionProps> = ({ id }) => {
               <img
                 src="/imgs/STC_Opening.JPG"
                 alt="Spill the Code grand opening"
+                width={1600}
+                height={1066}
                 className="max-w-full max-h-full object-contain p-2 rounded-2xl"
                 style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%' }}
               />

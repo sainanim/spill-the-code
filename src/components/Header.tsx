@@ -52,7 +52,7 @@ const Header = () => {
     { name: 'Courses', href: '/courses' },
     { name: 'About Us', href: '/#about-us' },
     { name: 'Summer Camps', href: '/summer-camps' },
-    { name: 'Store', href: 'store'},
+    { name: 'Shop', href: '/shop'},
     { name: 'Contact Us', href: '/#contact-us' }
   ];
   return (

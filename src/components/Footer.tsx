@@ -48,13 +48,13 @@ const Footer = () => {
               Courses
             </Link>
             <Link
-              href="#about-us"
+              href="/#about-us"
               className="hover:text-[var(--color-accent)] transition-colors duration-300"
             >
               About Us
             </Link>
             <Link
-              href="#contact-us"
+              href="/#contact-us"
               className="hover:text-[var(--color-accent)] transition-colors duration-300"
             >
               Contact Us

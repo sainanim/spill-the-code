@@ -225,6 +225,15 @@ export default function SummerCampsPage() {
           >
             Half day = 4 hours, Full day = 8 hours
           </motion.p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-left text-[var(--color-primary)] text-sm mb-10"
+          >
+            Taxes not included in displayed pricing 
+          </motion.p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
             {pricing.map((p, i) => {

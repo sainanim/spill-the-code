@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import { PRODUCT_OFFERINGS, getProductBySlug } from "@/lib/products";
 import { formatCents } from "@/lib/money";
-import ProductGallery from "@/components/store/ProductGallery";
-import AddToCartControls from "@/components/store/AddToCartControls";
+import ProductGallery from "@/components/shop/ProductGallery";
+import AddToCartControls from "@/components/shop/AddToCartControls";
 
 // The catalogue is static, so every product page is prerendered at build time.
 export function generateStaticParams() {
@@ -26,11 +26,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     <main className="bg-[var(--background-primary)] min-h-screen">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
         <Link
-          href="/store"
+          href="/shop"
           className="inline-flex items-center gap-1 text-sm font-medium text-[var(--color-primary)] hover:underline"
         >
           <ChevronLeft className="h-4 w-4" />
-          Back to Store
+          Back to Shop
         </Link>
 
         <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-start">

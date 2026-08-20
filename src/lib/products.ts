@@ -1,10 +1,10 @@
 import type { OfferingBase } from "./offerings";
 
-// Blix kits sold through the store. These resolve through the same
+// Blix kits sold through the shop. These resolve through the same
 // getOfferingById() registry as courses and camps, because the checkout API
 // re-prices every cart line from that registry server-side and rejects the
 // whole order if an id doesn't resolve. A product that only existed in the
-// store page's own state would add to the cart fine and then fail at checkout.
+// shop page's own state would add to the cart fine and then fail at checkout.
 export interface ProductOffering extends OfferingBase {
   category: "product";
   description: string;
@@ -12,7 +12,7 @@ export interface ProductOffering extends OfferingBase {
   // Derived, not authored - see the mapping at the bottom of this file.
   slug: string;
   images: string[];
-  // Thumbnail for the store grid; always images[0].
+  // Thumbnail for the shop grid; always images[0].
   imagePath: string;
 }
 
@@ -273,7 +273,7 @@ function slugify(title: string): string {
 }
 
 // Every product photo, keyed by slug. The first entry is the hero: it is what
-// the store grid shows as the thumbnail and what the detail gallery opens on,
+// the shop grid shows as the thumbnail and what the detail gallery opens on,
 // so reordering this list changes the thumbnail. Filenames are listed verbatim
 // because the supplied ones don't follow a single convention.
 const GALLERY: Record<string, string[]> = {

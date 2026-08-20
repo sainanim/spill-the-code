@@ -99,6 +99,14 @@ export default function CoursesPage() {
         >
           Our Awesome Courses
         </motion.h2>
+        <motion.h3
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-m sm:text-m text-[var(--color-primary)] text-left mb-4 mt-4"
+        >
+          Taxes not included in displayed pricing
+        </motion.h3>
 
         {/* AI Section */}
         <section className="mb-12">

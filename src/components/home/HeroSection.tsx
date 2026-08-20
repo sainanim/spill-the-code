@@ -49,6 +49,8 @@ const HeroSection = () => {
             <img
               src="/spill_the_code_logo.png"
               alt="Spill The Code Logo"
+              width={500}
+              height={500}
               className="w-full h-full object-contain"
             />
           </motion.div>
