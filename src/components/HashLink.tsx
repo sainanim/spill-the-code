@@ -30,7 +30,7 @@ export function scrollToHash(hash: string) {
 // A Link that also works when the URL already carries the hash it points at.
 // The App Router only scrolls for a same-page navigation when the hash actually
 // changes, so clicking "Contact Us" a second time — after scrolling away, with
-// #contact-us still in the URL — is a silent no-op. Here the scroll is ours.
+// #contact-us still in the URL — is a silent no-op.
 const HashLink = ({ href, onClick, ...props }: HashLinkProps) => {
   const pathname = usePathname();
 
