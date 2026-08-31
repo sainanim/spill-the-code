@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import CartButton from '@/components/cart/CartButton';
+import HashLink from '@/components/HashLink';
 
 // Collapsing the header shortens the document, which nudges the scroll position
 // back up. With a single threshold that nudge flips the state straight back and
@@ -93,13 +94,13 @@ const Header = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: 0.1 * (index + 1) }}
                 >
-                  <Link
+                  <HashLink
                     href={link.href}
                     className="text-[var(--text-primary)] hover:text-[var(--color-primary)] font-medium relative group"
                   >
                     {link.name}
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[var(--color-primary)] transition-all duration-300 group-hover:w-full"></span>
-                  </Link>
+                  </HashLink>
                 </motion.div>
               ))}
             </nav>
@@ -141,14 +142,14 @@ const Header = () => {
           >
             <nav className="flex flex-col space-y-4">
               {navLinks.map((link) => (
-                <Link 
+                <HashLink 
                   key={link.name}
                   href={link.href}
                   className="px-4 py-2 text-[var(--text-primary)] hover:text-[var(--color-primary)] hover:bg-[var(--background-secondary)] transition-colors duration-300"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link.name}
-                </Link>
+                </HashLink>
               ))}
             </nav>
           </motion.div>

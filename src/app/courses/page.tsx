@@ -9,6 +9,7 @@ import { useInView } from "framer-motion"
 import { useCart } from "@/components/cart/CartProvider"
 import { getOfferingById } from "@/lib/offerings"
 import { formatCents } from "@/lib/money"
+import HashLink from "@/components/HashLink"
 
 interface AnimatedCardProps {
   children: React.ReactNode;
@@ -338,9 +339,9 @@ export default function CoursesPage() {
 
       <p className="text-center text-sm text-[var(--text-secondary)] pb-10">
         Questions about a course?{" "}
-        <a href="/#contact-us" className="text-[var(--color-primary)] font-medium hover:underline">
+        <HashLink href="/#contact-us" className="text-[var(--color-primary)] font-medium hover:underline">
           Contact us
-        </a>
+        </HashLink>
       </p>
     </div>
     </>

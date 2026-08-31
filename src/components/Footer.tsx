@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import HashLink from '@/components/HashLink';
 import {
   FaFacebookF,
   FaInstagram,
@@ -47,18 +48,18 @@ const Footer = () => {
             >
               Courses
             </Link>
-            <Link
+            <HashLink
               href="/#about-us"
               className="hover:text-[var(--color-accent)] transition-colors duration-300"
             >
               About Us
-            </Link>
-            <Link
+            </HashLink>
+            <HashLink
               href="/#contact-us"
               className="hover:text-[var(--color-accent)] transition-colors duration-300"
             >
               Contact Us
-            </Link>
+            </HashLink>
           </div>
 
           {/* Social Icons */}

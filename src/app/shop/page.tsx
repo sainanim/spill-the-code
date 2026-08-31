@@ -1,5 +1,5 @@
 import { PRODUCT_OFFERINGS } from "@/lib/products";
-import ShopGrid from "@/components/shop/ShopGrid";
+import ShopGrid from  "@/components/shop/ShopGrid";
 
 export const metadata = {
   title: "Shop | Spill the Code",
