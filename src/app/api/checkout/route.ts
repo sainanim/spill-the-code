@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getStore } from "@netlify/blobs";
 import { getOfferingById } from "@/lib/offerings";
 import { formatCents } from "@/lib/money";
+import { calculateOrderTotals, HST_LABEL } from "@/lib/tax";
 import { escapeHtml, sendMail } from "@/lib/mailer";
 
 const MAX_LINE_ITEMS = 20;
@@ -86,6 +87,8 @@ async function saveOrderRecord(orderCode: string, record: unknown) {
 interface CheckoutSuccessResponse {
   ok: true;
   orderCode: string;
+  subtotalCents: number;
+  taxCents: number;
   totalCents: number;
   customerEmailSent: boolean;
   etransferEmail: string;
@@ -221,7 +224,11 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  const totalCents = resolvedLines.reduce((sum, line) => sum + line.lineTotalCents, 0);
+  // Recomputed from the re-resolved line prices — the browser's totals are for
+  // display only and never reach this calculation.
+  const { subtotalCents, taxCents, totalCents } = calculateOrderTotals(
+    resolvedLines.reduce((sum, line) => sum + line.lineTotalCents, 0)
+  );
   const orderCode = generateOrderCode();
   const etransferTo = process.env.ETRANSFER_RECEIVER_EMAIL || process.env.EMAIL_RECEIVER || "";
 
@@ -243,6 +250,8 @@ export async function POST(req: NextRequest) {
     phone,
     notes,
     items: resolvedLines,
+    subtotalCents,
+    taxCents,
     totalCents,
   });
 
@@ -252,6 +261,14 @@ export async function POST(req: NextRequest) {
         `<tr><td>${escapeHtml(line.title)}</td><td style="text-align:center">${line.quantity}</td><td style="text-align:right">${formatCents(line.lineTotalCents)}</td></tr>`
     )
     .join("");
+
+  const totalsHtml = `
+    <p>
+      Subtotal: ${formatCents(subtotalCents)}<br>
+      ${HST_LABEL}: ${formatCents(taxCents)}<br>
+      <strong>Total: ${formatCents(totalCents)}</strong>
+    </p>
+  `;
 
   const businessHtml = `
     <h2>New Cart Order — ${escapeHtml(orderCode)}</h2>
@@ -263,7 +280,7 @@ export async function POST(req: NextRequest) {
       <thead><tr><th>Item</th><th>Qty</th><th>Line Total</th></tr></thead>
       <tbody>${itemsHtml}</tbody>
     </table>
-    <p><strong>Total: ${formatCents(totalCents)}</strong></p>
+    ${totalsHtml}
     <p>Reference code: <strong>${escapeHtml(orderCode)}</strong></p>
     ${clientRequestId ? `<p style="color:#999;font-size:12px;">Client request id: ${escapeHtml(clientRequestId)}</p>` : ""}
   `;
@@ -291,7 +308,7 @@ export async function POST(req: NextRequest) {
         <thead><tr><th>Item</th><th>Qty</th><th>Line Total</th></tr></thead>
         <tbody>${itemsHtml}</tbody>
       </table>
-      <p><strong>Total: ${formatCents(totalCents)}</strong></p>
+      ${totalsHtml}
       <p>Please e-transfer <strong>${formatCents(totalCents)}</strong> to <strong>${escapeHtml(
         etransferTo
       )}</strong> and include reference code <strong>${escapeHtml(orderCode)}</strong> in the message.</p>
@@ -313,6 +330,8 @@ export async function POST(req: NextRequest) {
   const responsePayload: CheckoutSuccessResponse = {
     ok: true,
     orderCode,
+    subtotalCents,
+    taxCents,
     totalCents,
     customerEmailSent,
     etransferEmail: etransferTo,

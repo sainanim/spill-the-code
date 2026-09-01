@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { getOfferingById, type Offering } from "@/lib/offerings";
+import { calculateOrderTotals } from "@/lib/tax";
 import CartDrawer from "./CartDrawer";
 import CartToast, { type ToastState } from "./CartToast";
 
@@ -30,6 +31,10 @@ export type ResolvedCartItem = Offering & {
 interface CartContextValue {
   resolvedItems: ResolvedCartItem[];
   itemCount: number;
+  // Pre-tax sum of the line items.
+  subtotalCents: number;
+  // HST on the subtotal, and the tax-inclusive amount the customer owes.
+  taxCents: number;
   totalCents: number;
   // False until the persisted cart has been read from localStorage — lets
   // consumers hold a neutral state instead of flashing "cart is empty".
@@ -165,11 +170,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [items]);
 
   const itemCount = resolvedItems.reduce((sum, item) => sum + item.quantity, 0);
-  const totalCents = resolvedItems.reduce((sum, item) => sum + item.lineTotalCents, 0);
+  const subtotalCents = resolvedItems.reduce((sum, item) => sum + item.lineTotalCents, 0);
+  // Derived once here so the drawer, the checkout summary and the submit button
+  // all read the same numbers instead of each re-deriving tax on their own.
+  const { taxCents, totalCents } = calculateOrderTotals(subtotalCents);
 
   const value: CartContextValue = {
     resolvedItems,
     itemCount,
+    subtotalCents,
+    taxCents,
     totalCents,
     hydrated,
     addItem,
