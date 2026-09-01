@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Bot, Sparkles } from "lucide-react";
 import { FaFutbol } from "react-icons/fa";
+import { scrollToHash } from "@/components/HashLink";
 
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -49,6 +50,8 @@ const HeroSection = () => {
             <img
               src="/spill_the_code_logo.png"
               alt="Spill The Code Logo"
+              width={500}
+              height={500}
               className="w-full h-full object-contain"
             />
           </motion.div>
@@ -66,7 +69,11 @@ const HeroSection = () => {
           <div className={`flex flex-col xs:flex-row gap-3 sm:gap-4 mt-8 sm:mt-10 w-full max-w-xs sm:max-w-md mx-auto transition-all duration-1000 delay-600 transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <button
               className="px-5 py-2.5 sm:px-6 sm:py-3 border-2 border-blue-600 text-blue-600 font-semibold rounded-full hover:bg-blue-600 hover:text-white transition-colors duration-300 text-sm sm:text-base w-full"
-              onClick={() => window.location.href = '/#contact-us'}
+              onClick={() => {
+                // Same hazard as the nav links: once the URL already ends in
+                // #contact-us, re-assigning the identical href does nothing.
+                if (!scrollToHash('contact-us')) window.location.href = '/#contact-us';
+              }}
             >
               Contact Us
             </button>

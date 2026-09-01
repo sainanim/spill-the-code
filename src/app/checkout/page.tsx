@@ -4,16 +4,22 @@ import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import Link from "next/link";
 import { useCart } from "@/components/cart/CartProvider";
 import { formatCents } from "@/lib/money";
+import { HST_LABEL } from "@/lib/tax";
 
 interface CheckoutSuccess {
   orderCode: string;
+  // The server recomputes the breakdown and is the authority on what is owed.
+  // subtotal/tax are optional so a retry replayed from an order placed before
+  // HST shipped still renders instead of printing "$NaN".
+  subtotalCents?: number;
+  taxCents?: number;
   totalCents: number;
   customerEmailSent: boolean;
   etransferEmail: string;
 }
 
 export default function CheckoutPage() {
-  const { resolvedItems, totalCents, clearCart, hydrated } = useCart();
+  const { resolvedItems, subtotalCents, taxCents, totalCents, clearCart, hydrated } = useCart();
   const [clientRequestId, setClientRequestId] = useState("");
   const [formData, setFormData] = useState({
     name: "",
@@ -80,6 +86,11 @@ export default function CheckoutPage() {
       <main className="min-h-screen bg-[var(--background-primary)] pb-16 px-4">
         <div className="container mx-auto max-w-lg text-center bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
           <h1 className="text-2xl font-bold text-[var(--color-primary)] mb-3">Order received!</h1>
+          {success.subtotalCents != null && success.taxCents != null && (
+            <p className="text-sm text-[var(--text-secondary)] mb-4">
+              {formatCents(success.subtotalCents)} + {formatCents(success.taxCents)} {HST_LABEL}
+            </p>
+          )}
           <p className="text-[var(--text-secondary)] mb-6">
             Please e-transfer <strong>{formatCents(success.totalCents)}</strong>
             {success.etransferEmail && (
@@ -148,17 +159,20 @@ export default function CheckoutPage() {
                 <span className="text-[var(--text-primary)]">
                   {item.shortLabel}{" "}
                   <span className="text-[var(--text-secondary)]">× {item.quantity}</span>
-                  {item.isPlaceholderPrice && (
-                    <span className="block text-xs text-[var(--text-secondary)]">
-                      Estimated — final pricing TBD
-                    </span>
-                  )}
                 </span>
                 <span className="font-medium whitespace-nowrap">{formatCents(item.lineTotalCents)}</span>
               </div>
             ))}
           </div>
-          <div className="flex justify-between font-semibold text-[var(--text-primary)] border-t pt-3">
+          <div className="flex justify-between text-[var(--text-primary)] border-t pt-3 pb-3">
+            <span>Subtotal</span>
+            <span>{formatCents(subtotalCents)}</span>
+          </div>
+          <div className="flex justify-between text-[var(--text-primary)] border-t pt-3 pb-3">
+            <span>{HST_LABEL}</span>
+            <span>{formatCents(taxCents)}</span>
+          </div>
+          <div className="flex justify-between font-semibold text-[var(--text-primary)] border-t pt-3 pb-3">
             <span>Total</span>
             <span>{formatCents(totalCents)}</span>
           </div>

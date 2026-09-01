@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useRef } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -9,6 +9,7 @@ import { useInView } from "framer-motion"
 import { useCart } from "@/components/cart/CartProvider"
 import { getOfferingById } from "@/lib/offerings"
 import { formatCents } from "@/lib/money"
+import HashLink from "@/components/HashLink"
 
 interface AnimatedCardProps {
   children: React.ReactNode;
@@ -99,6 +100,14 @@ export default function CoursesPage() {
         >
           Our Awesome Courses
         </motion.h2>
+        <motion.h3
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-m sm:text-m text-[var(--color-primary)] text-left mb-4 mt-4"
+        >
+          Taxes not included in displayed pricing
+        </motion.h3>
 
         {/* AI Section */}
         <section className="mb-12">
@@ -172,9 +181,9 @@ export default function CoursesPage() {
                 description="Start your coding journey here!"
                 topics={[
                   "Introduction to Computers and Programming",
-                  "Visual Coding (Scratch or Blockly)",
+                  "Visual Coding using Scratch",
                   "Basics of Python: Variables, Loops, If/Else, Functions",
-                  "Build mini games like Rock-Paper-Scissors or a simple calculator",
+                  "Build a mini game or animation",
                 ]}
                 level="beginner"
                 offeringId="course-coding-beginner"
@@ -183,14 +192,14 @@ export default function CoursesPage() {
 
             <AnimatedCard>
               <CourseLevel
-                title="Intermediate Level: Web & App Development"
-                description="Create your own websites and apps!"
+                title="Intermediate Level: Learning Python Syntax and DSA"
+                description="Build a strong coding foundation to build upon"
                 topics={[
-                  "HTML & CSS: Create your first webpage",
-                  "JavaScript basics for interactivity",
-                  "Build a personal portfolio website",
-                  "Introduction to APIs and JSON",
-                  "Mobile App Mockup using tools like Thunkable or Replit",
+                  "Python: Transfer fundamentals learned in Scratch",
+                  "Learn about data types, strings, condition statements",
+                  "Explore loops, functions, classes, and OOP",
+                  "Dive into common data structures and algorithms (DSA)",
+                  "Intro to File Handling (working with data)",
                 ]}
                 level="intermediate"
                 offeringId="course-coding-intermediate"
@@ -202,10 +211,9 @@ export default function CoursesPage() {
                 title="Advanced Level: Full Projects & Logic Building"
                 description="Become a coding wizard!"
                 topics={[
-                  "Python Modules & Libraries",
-                  "Build a quiz app, simple game, or weather app",
-                  "Version control (Git & GitHub basics)",
-                  "Debugging techniques",
+                  "Introduction to Python Modules & Libraries",
+                  "Connect concepts learned so far to build a simple game, web app, etc.",
+                  "Version control (Git & GitHub basics) and Debugging techniques",
                   "Capstone Project: Build a complete game or mini web app",
                 ]}
                 level="advanced"
@@ -229,9 +237,10 @@ export default function CoursesPage() {
                 description="Start your robotics adventure here!"
                 topics={[
                   "What is a robot? Hardware vs. Software",
-                  "Build basic robots using Havi Kits",
-                  "Intro to sensors: sound, motion, light",
-                  "Block-based coding (using LEGO Spike or MakeCode)",
+                  "Build basic robots using Blix Kits",
+                  "Discovering motion, force, and logical thinking",
+                  "Introduction to basic electricity: conductors vs. insulators, circuits, etc.",
+                  "Hand-eye coordination, problem-solving and persistence through project-based construction",
                 ]}
                 level="beginner"
                 offeringId="course-robotics-beginner"
@@ -240,13 +249,14 @@ export default function CoursesPage() {
 
             <AnimatedCard>
               <CourseLevel
-                title="Intermediate Level: Sensors & Automation"
+                title="Intermediate Level: Mechanisms, Circuits & Automation"
                 description="Make your robots smarter!"
                 topics={[
-                  "Advanced sensor programming (ultrasonic, color, gyroscope)",
-                  "Conditional logic and loops in movement",
-                  "Intro to Arduino and micro:bit",
-                  "Simple automation: Line follower robot or obstacle avoider",
+                  "Learn various Mechanisms: gears, power screws, and the trade-off between force and speed",
+                  "Circuits: resistors, capacitors, motors, buzzers and LEDs on a base board, building real models",
+                  "Robotics without a computer: Logic Blocks to build autonomous cars, line followers and sorting machines",
+                  "Block-based coding with IR and ultrasonic sensors, servos and DC motors",
+                  "Systems thinking: sensing → decision → actuation, plus debugging and iterative design",
                 ]}
                 level="intermediate"
                 offeringId="course-robotics-intermediate"
@@ -255,14 +265,14 @@ export default function CoursesPage() {
 
             <AnimatedCard>
               <CourseLevel
-                title="Advanced Level: Mechatronics & AI + Robotics"
-                description="Build amazing smart robots!"
+                title="Advanced Level: Code, AI & Digital Electronics"
+                description="Learn complex concepts to then build amazing smart robots!"
                 topics={[
-                  "Robotics + AI (voice recognition, object detection)",
-                  "Intro to Raspberry Pi",
-                  "Mechanical design concepts: torque, balance, speed",
-                  "Robotics competition simulations",
-                  "Capstone Project: Design, build, and code a smart robot",
+                  "Text-based programming: Python, plus C++ at the high-school tier",
+                  "AI and machine learning: image recognition, gesture and speech control, facial recognition and voice-controlled robots",
+                  "Digital electronics: logic gates, multiplexers and demultiplexers, ICs, 555 timers, Ohm’s law and voltage dividers",
+                  "IoT and connected systems: networked sensors and devices in the higher lab tiers",
+                  "AR/VR and 3D design, plus competition work through Blix-A-Thon and WRO",
                 ]}
                 level="advanced"
                 offeringId="course-robotics-advanced"
@@ -330,9 +340,9 @@ export default function CoursesPage() {
 
       <p className="text-center text-sm text-[var(--text-secondary)] pb-10">
         Questions about a course?{" "}
-        <a href="/#contact-us" className="text-[var(--color-primary)] font-medium hover:underline">
+        <HashLink href="/#contact-us" className="text-[var(--color-primary)] font-medium hover:underline">
           Contact us
-        </a>
+        </HashLink>
       </p>
     </div>
     </>
@@ -379,11 +389,6 @@ function CourseLevel({ title, description, topics, level, offeringId }: CourseLe
             <span className="text-xl font-bold text-[var(--text-primary)]">
               {formatCents(offering.priceCents)}
             </span>
-            {offering.isPlaceholderPrice && (
-              <span className="text-xs text-[var(--text-secondary)]">
-                Estimated — final pricing TBD
-              </span>
-            )}
           </div>
         )}
         <ul className="space-y-2 mb-6 flex-1">

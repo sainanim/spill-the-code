@@ -8,8 +8,7 @@ interface EventSectionProps {
 }
 
 /**
- * Edit these fields whenever a new event is coming up — nothing else in this
- * file needs to change for a typical update.
+ * Edit these fields whenever a new event is coming up
  */
 const event = {
     name: "Event Name",
@@ -21,8 +20,8 @@ const event = {
 /**
  * Decorative icons scattered around the whole section, behind
  * the content. Swap the icon component and/or position classes to match the
- * new event's theme (this is the same pattern the old soccer robotics badge
- * used) — position classes are relative to the two-column wrapper below, so
+ * new event's theme (this is the same pattern old soccer robotics event used) — 
+ * position classes are relative to the two-column wrapper below, so
  * you can place icons near either the text side or the image side.
  */
 const backgroundIcons = [

@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { getOfferingById, type Offering } from "@/lib/offerings";
+import { calculateOrderTotals } from "@/lib/tax";
 import CartDrawer from "./CartDrawer";
 import CartToast, { type ToastState } from "./CartToast";
 
@@ -30,11 +31,15 @@ export type ResolvedCartItem = Offering & {
 interface CartContextValue {
   resolvedItems: ResolvedCartItem[];
   itemCount: number;
+  // Pre-tax sum of the line items.
+  subtotalCents: number;
+  // HST on the subtotal, and the tax-inclusive amount the customer owes.
+  taxCents: number;
   totalCents: number;
   // False until the persisted cart has been read from localStorage — lets
   // consumers hold a neutral state instead of flashing "cart is empty".
   hydrated: boolean;
-  addItem: (offeringId: string) => void;
+  addItem: (offeringId: string, quantity?: number) => void;
   removeItem: (offeringId: string) => void;
   setQuantity: (offeringId: string, quantity: number) => void;
   clearCart: () => void;
@@ -104,19 +109,22 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [items, hydrated]);
 
-  const addItem = (offeringId: string) => {
+  // quantity lets the product detail page add several at once; the cart and
+  // course pages call this with no second argument and still add one.
+  const addItem = (offeringId: string, quantity: number = 1) => {
     const offering = getOfferingById(offeringId);
     if (!offering) return;
+    const toAdd = Math.min(Math.max(Math.trunc(quantity), 1), MAX_QUANTITY);
     setItems((prev) => {
       const existing = prev.find((item) => item.offeringId === offeringId);
       if (existing) {
         return prev.map((item) =>
           item.offeringId === offeringId
-            ? { ...item, quantity: Math.min(item.quantity + 1, MAX_QUANTITY) }
+            ? { ...item, quantity: Math.min(item.quantity + toAdd, MAX_QUANTITY) }
             : item
         );
       }
-      return [...prev, { offeringId, quantity: 1 }];
+      return [...prev, { offeringId, quantity: toAdd }];
     });
 
     // A brief toast confirms the add without interrupting browsing the way
@@ -162,11 +170,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [items]);
 
   const itemCount = resolvedItems.reduce((sum, item) => sum + item.quantity, 0);
-  const totalCents = resolvedItems.reduce((sum, item) => sum + item.lineTotalCents, 0);
+  const subtotalCents = resolvedItems.reduce((sum, item) => sum + item.lineTotalCents, 0);
+  // Derived once here so the drawer, the checkout summary and the submit button
+  // all read the same numbers instead of each re-deriving tax on their own.
+  const { taxCents, totalCents } = calculateOrderTotals(subtotalCents);
 
   const value: CartContextValue = {
     resolvedItems,
     itemCount,
+    subtotalCents,
+    taxCents,
     totalCents,
     hydrated,
     addItem,

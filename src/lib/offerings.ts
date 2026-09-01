@@ -1,9 +1,10 @@
-interface OfferingBase {
+import { PRODUCT_OFFERINGS, type ProductOffering } from "./products";
+
+export interface OfferingBase {
   id: string;
   title: string;
   shortLabel: string;
   priceCents: number;
-  isPlaceholderPrice: boolean;
 }
 
 export interface CourseOffering extends OfferingBase {
@@ -24,9 +25,9 @@ export interface CampOffering extends OfferingBase {
   unit?: string;
 }
 
-export type Offering = CourseOffering | CampOffering;
+export type Offering = CourseOffering | CampOffering | ProductOffering;
 
-const LEVEL_PLACEHOLDER_PRICE_CENTS: Record<CourseOffering["level"], number> = {
+const LEVEL_PRICE_CENTS: Record<CourseOffering["level"], number> = {
   beginner: 2500,
   intermediate: 2500,
   advanced: 2500,
@@ -51,8 +52,7 @@ function courseOffering(
     level,
     title,
     shortLabel: `${subjectLabel} · ${LEVEL_LABEL[level]}`,
-    priceCents: LEVEL_PLACEHOLDER_PRICE_CENTS[level],
-    isPlaceholderPrice: true,
+    priceCents: LEVEL_PRICE_CENTS[level],
   };
 }
 
@@ -82,7 +82,6 @@ export const CAMP_OFFERINGS: CampOffering[] = [
     title: "Summer Camp: Hourly",
     shortLabel: "Hourly",
     priceCents: 2000,
-    isPlaceholderPrice: false,
     unit: "/ hour",
   },
   {
@@ -92,7 +91,6 @@ export const CAMP_OFFERINGS: CampOffering[] = [
     title: "Summer Camp: Daily",
     shortLabel: "Daily",
     priceCents: 7500,
-    isPlaceholderPrice: false,
     unit: "/ day",
   },
   {
@@ -102,7 +100,6 @@ export const CAMP_OFFERINGS: CampOffering[] = [
     title: "Summer Camp: Weekly — Half Day",
     shortLabel: "Weekly · Half Day",
     priceCents: 20000,
-    isPlaceholderPrice: false,
   },
   {
     id: "camp-weekly-fullday",
@@ -111,7 +108,6 @@ export const CAMP_OFFERINGS: CampOffering[] = [
     title: "Summer Camp: Weekly — Full Day",
     shortLabel: "Weekly · Full Day",
     priceCents: 30000,
-    isPlaceholderPrice: false,
   },
   {
     id: "camp-monthly-halfday",
@@ -120,7 +116,6 @@ export const CAMP_OFFERINGS: CampOffering[] = [
     title: "Summer Camp: Monthly — Half Day",
     shortLabel: "Monthly · Half Day",
     priceCents: 80000,
-    isPlaceholderPrice: false,
   },
   {
     id: "camp-monthly-fullday",
@@ -129,11 +124,14 @@ export const CAMP_OFFERINGS: CampOffering[] = [
     title: "Summer Camp: Monthly — Full Day",
     shortLabel: "Monthly · Full Day",
     priceCents: 120000,
-    isPlaceholderPrice: false,
   },
 ];
 
-export const ALL_OFFERINGS: Offering[] = [...COURSE_OFFERINGS, ...CAMP_OFFERINGS];
+export const ALL_OFFERINGS: Offering[] = [
+  ...COURSE_OFFERINGS,
+  ...CAMP_OFFERINGS,
+  ...PRODUCT_OFFERINGS,
+];
 
 export const OFFERINGS_BY_ID: Map<string, Offering> = new Map(
   ALL_OFFERINGS.map((offering) => [offering.id, offering])

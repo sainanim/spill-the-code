@@ -5,9 +5,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Minus, Plus, ShoppingCart, Trash2, X } from "lucide-react";
 import { useCart } from "./CartProvider";
 import { formatCents } from "@/lib/money";
+import { HST_LABEL } from "@/lib/tax";
 
 export default function CartDrawer() {
-  const { isOpen, closeCart, resolvedItems, totalCents, removeItem, setQuantity } = useCart();
+  const { isOpen, closeCart, resolvedItems, subtotalCents, removeItem, setQuantity } = useCart();
 
   return (
     <AnimatePresence>
@@ -56,11 +57,6 @@ export default function CartDrawer() {
                     <div key={item.id} className="flex items-start justify-between gap-3 border-b pb-4">
                       <div className="flex-1">
                         <p className="font-medium text-[var(--text-primary)]">{item.shortLabel}</p>
-                        {item.isPlaceholderPrice && (
-                          <p className="text-xs text-[var(--text-secondary)]">
-                            Estimated price — final pricing TBD
-                          </p>
-                        )}
                         <div className="flex items-center gap-2 mt-2">
                           <button
                             onClick={() => setQuantity(item.id, item.quantity - 1)}
@@ -98,8 +94,11 @@ export default function CartDrawer() {
                 <div className="p-4 border-t space-y-3">
                   <div className="flex items-center justify-between font-semibold text-[var(--text-primary)]">
                     <span>Subtotal</span>
-                    <span>{formatCents(totalCents)}</span>
+                    <span>{formatCents(subtotalCents)}</span>
                   </div>
+                  <p className="text-xs text-[var(--text-secondary)] -mt-1">
+                    {HST_LABEL} calculated at checkout.
+                  </p>
                   <Link
                     href="/checkout"
                     onClick={closeCart}

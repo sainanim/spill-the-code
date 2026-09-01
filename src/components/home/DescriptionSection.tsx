@@ -6,11 +6,8 @@ const DescriptionSection = () => {
   // Track viewport width
   const [isMobile, setIsMobile] = useState(false)
   const [isSmallMobile, setIsSmallMobile] = useState(false)
-  const [hasMounted, setHasMounted] = useState(false) // <-- new
 
   useEffect(() => {
-    setHasMounted(true) // <-- new
-
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768)
       setIsSmallMobile(window.innerWidth < 360)
@@ -22,8 +19,6 @@ const DescriptionSection = () => {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  // Don’t render until mounted on client to avoid hydration/layout issues
-  if (!hasMounted) return null
 
   const leftCardVariant = {
     hidden: { opacity: 0, x: isMobile ? -30 : -100 },
