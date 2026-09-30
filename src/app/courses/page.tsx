@@ -1,13 +1,13 @@
 "use client";
 
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { BotIcon as Robot, Brain, Code, Calculator } from "lucide-react"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useCart } from "@/components/cart/CartProvider"
-import { getOfferingById } from "@/lib/offerings"
+import { getOfferingById, type CourseOffering } from "@/lib/offerings"
 import { formatCents } from "@/lib/money"
 import HashLink from "@/components/HashLink"
 
@@ -357,9 +357,15 @@ interface CourseLevelProps {
   offeringId: string
 }
 
+const SESSION_OPTIONS: { value: CourseOffering["session"]; label: string }[] = [
+  { value: "group", label: "Group" },
+  { value: "private", label: "Private" },
+]
+
 function CourseLevel({ title, description, topics, level, offeringId }: CourseLevelProps) {
   const { addItem } = useCart();
-  const offering = getOfferingById(offeringId);
+  const [session, setSession] = useState<CourseOffering["session"]>("group");
+  const offering = getOfferingById(`${offeringId}-${session}`);
 
   const getBadgeColor = () => {
     switch (level) {
@@ -385,10 +391,33 @@ function CourseLevel({ title, description, topics, level, offeringId }: CourseLe
       </CardHeader>
       <CardContent className="flex-1 flex flex-col">
         {offering && (
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between gap-2 mb-4 flex-wrap">
             <span className="text-xl font-bold text-[var(--text-primary)]">
               {formatCents(offering.priceCents)}
+              <span className="text-sm font-normal text-slate-500"> / session</span>
             </span>
+            <div
+              role="radiogroup"
+              aria-label="Session type"
+              className="inline-flex rounded-md border border-[#197602] overflow-hidden"
+            >
+              {SESSION_OPTIONS.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  role="radio"
+                  aria-checked={session === option.value}
+                  onClick={() => setSession(option.value)}
+                  className={`px-3 py-1 text-sm font-medium transition-colors ${
+                    session === option.value
+                      ? "bg-[#197602] text-white"
+                      : "bg-white text-[#197602] hover:bg-green-50"
+                  }`}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
           </div>
         )}
         <ul className="space-y-2 mb-6 flex-1">
@@ -405,7 +434,7 @@ function CourseLevel({ title, description, topics, level, offeringId }: CourseLe
           className="w-full py-2 px-4 bg-[#197602] text-white rounded-md hover:bg-opacity-90 transition-colors mt-auto"
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
-          onClick={() => addItem(offeringId)}
+          onClick={() => offering && addItem(offering.id)}
         >
           Add to Cart
         </motion.button>
