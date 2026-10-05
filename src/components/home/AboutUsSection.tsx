@@ -133,7 +133,7 @@ const AboutUsSection: React.FC<AboutUsSectionProps> = ({ id }) => {
                 variants={textItem}
                 className="text-slate-700 text-base sm:text-lg leading-relaxed mb-4 sm:mb-6"
               >
-                Today, we’re proud to be teaching over 20 kids in Mississauga, introducing them to programming, robotics, and tech in a way that’s hands-on, creative, and exciting.
+                Today, we’re proud to be teaching over 50 kids in Mississauga, introducing them to programming, robotics, and tech in a way that’s hands-on, creative, and exciting.
 
               </motion.p>
               
