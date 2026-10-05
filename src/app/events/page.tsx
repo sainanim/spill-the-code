@@ -18,14 +18,14 @@ interface EventItem {
  * To post a new event: drop the flyer image into /public/events/ and add an
  */
 const events: EventItem[] = [
-  // {
-  //   flyer: "/events/robotics-showcase.png",
-  //   name: "Robotics Showcase",
-  //   date: "November 15, 2026",
-  //   time: "1:00 PM – 4:00 PM",
-  //   location: "Spill the Code, Unit 12",
-  //   description: "Students demo the robots they built this term. Free for families and friends.",
-  // },
+  {
+    flyer: "/events/mom_baby_workshop.jpeg",
+    name: "Mom & Baby Sensory Play & Art Workshop",
+    date: "October 25, 2026",
+    time: "11 AM onwards",
+    location: "Spill the Code, Erin Mills town Centre",
+    description: "Spend quality time together exploring sensory play, creativity, and simple art activities in a safe & playful environment.",
+  },
 ];
 
 export default function EventsPage() {
@@ -45,9 +45,8 @@ export default function EventsPage() {
             {events.map((event, i) => (
               <article
                 key={event.flyer}
-                className={`flex flex-col gap-8 lg:gap-12 lg:items-center ${
-                  i % 2 === 1 ? "lg:flex-row-reverse" : "lg:flex-row"
-                }`}
+                className={`flex flex-col gap-8 lg:gap-12 lg:items-center ${i % 2 === 1 ? "lg:flex-row-reverse" : "lg:flex-row"
+                  }`}
               >
                 <a
                   href={event.flyer}
