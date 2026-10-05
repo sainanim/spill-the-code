@@ -2,9 +2,7 @@
 import Link from 'next/link';
 import HashLink from '@/components/HashLink';
 import {
-  FaFacebookF,
   FaInstagram,
-  FaLinkedinIn,
   FaWhatsapp,
   FaEnvelope,
 } from 'react-icons/fa';
@@ -72,25 +70,13 @@ const Footer = () => {
               <FaWhatsapp />
             </a>
             <a
-              href="#"
+              href="https://www.instagram.com/spill.the.code/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hover:text-[var(--color-accent)] transition-colors duration-300"
               aria-label="Instagram"
             >
               <FaInstagram />
-            </a>
-            <a
-              href="#"
-              className="hover:text-[var(--color-accent)] transition-colors duration-300"
-              aria-label="Facebook"
-            >
-              <FaFacebookF />
-            </a>
-            <a
-              href="#"
-              className="hover:text-[var(--color-accent)] transition-colors duration-300"
-              aria-label="LinkedIn"
-            >
-              <FaLinkedinIn />
             </a>
           </div>
         </div>

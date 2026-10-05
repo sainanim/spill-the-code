@@ -5,7 +5,6 @@ import WhatMakesUsUniqueSection from '../components/home/WhatMakesUsUniqueSectio
 import TestimonialsSection from '../components/home/TestimonialsSection';
 import AboutUsSection from '../components/home/AboutUsSection';
 import NewLocationSection from '../components/home/NewLocationSection';
-import EventSection from '@/components/home/EventSection';
 import MeetOurTeamSection from '../components/team/MeetOurTeamSection';
 import ContactUsSection from '../components/home/ContactUsSection';
 import OurMotto from '@/components/home/OurMotto';
@@ -18,7 +17,6 @@ export default function Home() {
 
       <main className="">
         <HeroSection />
-        {/*<EventSection id="event-section"/>*/}
         <NewLocationSection id="new-location" />
         <AboutUsSection id="about-us" />
         <DescriptionSection />

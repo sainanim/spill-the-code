@@ -15,18 +15,6 @@ interface TeamMember {
 const teamData: TeamMember[] = [
   {
     id: 1,
-    name: "Monica Sainani",
-    imageUrl: "/team/Monica.jpeg",
-    points: [
-      "Monica is a graduate from the University of Toronto with degrees in Computer Science and Cognitive Science, with experience at tech companies like Cisco Systems.",
-      "She's an advocate for learning that's personalized, meaningful, and accessible to all, having started coding young and found confidence through technology.",
-      "Her leadership style is rooted in empathy, clarity, and a deep love for teaching. She remains hands-on with students and deeply involved in shaping the curriculum.",
-      "Under her leadership, the Academy of Intelligent Minds has grown from a small after-school program to a comprehensive educational institution serving students across multiple age groups."
-    ],
-    quote: "\"I believe that technology education should be accessible, engaging, and future-focused. Our goal is to empower every student to become not just users of technology, but creators and innovators.\""
-  },
-  {
-    id: 2,
     name: "Mukesh S",
     imageUrl: "/team/Mukesh.jpeg",
     points: [
@@ -35,6 +23,17 @@ const teamData: TeamMember[] = [
       "Mukesh is passionate about making robotics accessible to students of all ages and backgrounds, believing that hands-on experience is the key to understanding complex systems."
     ],
     quote: "\"Robotics is where theory meets practice. I'm committed to helping students build the skills to design, program, and innovate with technology that moves and interacts with the real world.\""
+  },
+  {
+    id: 2,
+    name: "Santiago Fernandez",
+    imageUrl: "/team/Santiago.jpeg",
+    points: [
+      "Santiago is a graduate from the University of Wilfrid Laurier with a Bachelor's in Computer Science, he has experience in professional software development environments and a knack for teaching.",
+      "He's an advocate for learning that's personalized, meaningful, and accessible to all, having started coding and robotics young and found confidence through technology.",
+      "His leadership style is rooted in empathy, clarity, and nurturing genuine connections with students. Santiago is also in charge of the company website, running in-school workshops, and day-to-day administrative tasks"
+    ],
+    quote: "\"Students learn best when they are enganged and curious. My goal here is to bring that curiosity out of them.\""
   }
 ];
 

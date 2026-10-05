@@ -52,8 +52,9 @@ const Header = () => {
     { name: 'Our Team', href: '/team' },
     { name: 'Courses', href: '/courses' },
     { name: 'About Us', href: '/#about-us' },
-    { name: 'Summer Camps', href: '/summer-camps' },
+    // { name: 'Summer Camps', href: '/summer-camps' }, // hidden for now
     { name: 'Shop', href: '/shop'},
+    { name: 'Events', href: '/events' },
     { name: 'Contact Us', href: '/#contact-us' }
   ];
   return (

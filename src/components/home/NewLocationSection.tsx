@@ -143,7 +143,7 @@ const NewLocationSection: React.FC<NewLocationSectionProps> = ({ id }) => {
               ))}
             </div>
 
-            {/* Summer camps callout */}
+            {/* Summer camps callout — hidden for now
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -166,7 +166,7 @@ const NewLocationSection: React.FC<NewLocationSectionProps> = ({ id }) => {
               >
                 Learn More <ArrowRight className="w-4 h-4" />
               </Link>
-            </motion.div>
+            </motion.div> */}
 
             {/* Directions */}
             <motion.div

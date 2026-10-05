@@ -133,15 +133,16 @@ export default function CheckoutPage() {
         <div className="container mx-auto max-w-lg text-center bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
           <h1 className="text-2xl font-bold text-[var(--color-primary)] mb-3">Your cart is empty</h1>
           <p className="text-[var(--text-secondary)] mb-6">
-            Add a course or summer camp option before checking out.
+            Add a course before checking out.
           </p>
           <div className="flex items-center justify-center gap-6">
             <Link href="/courses" className="text-[var(--color-primary)] font-medium hover:underline">
               Browse Courses
             </Link>
+            {/* Summer camps hidden for now
             <Link href="/summer-camps" className="text-[var(--color-primary)] font-medium hover:underline">
               Browse Summer Camps
-            </Link>
+            </Link> */}
           </div>
         </div>
       </main>
