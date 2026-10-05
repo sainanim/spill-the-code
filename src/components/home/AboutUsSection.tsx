@@ -180,7 +180,7 @@ const AboutUsSection: React.FC<AboutUsSectionProps> = ({ id }) => {
                     }}
                     className="text-2xl sm:text-3xl font-bold mb-1 relative z-10"
                   >
-                    <span className="text-[#FFC000]">500+</span>
+                    <span className="text-[#FFC000]">100+</span>
                   </motion.div>
                   <p className="text-slate-600 text-sm sm:text-base relative z-10">Students Taught</p>
                 </motion.div>
@@ -204,7 +204,7 @@ const AboutUsSection: React.FC<AboutUsSectionProps> = ({ id }) => {
                     }}
                     className="text-2xl sm:text-3xl font-bold mb-1 relative z-10"
                   >
-                    <span className="text-[#FFC000]">20+</span>
+                    <span className="text-[#FFC000]">5+</span>
                   </motion.div>
                   <p className="text-slate-600 text-sm sm:text-base relative z-10">Expert Educators</p>
                 </motion.div>
@@ -228,7 +228,7 @@ const AboutUsSection: React.FC<AboutUsSectionProps> = ({ id }) => {
                     }}
                     className="text-2xl sm:text-3xl font-bold mb-1 relative z-10"
                   >
-                    <span className="text-[#FFC000]">1000+</span>
+                    <span className="text-[#FFC000]">200+</span>
                   </motion.div>
                   <p className="text-slate-600 text-sm sm:text-base relative z-10">Projects Completed</p>
                 </motion.div>
