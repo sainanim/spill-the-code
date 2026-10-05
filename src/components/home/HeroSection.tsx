@@ -37,8 +37,47 @@ const HeroSection = () => {
     },
   };
 
+  // Code symbols that appear and disappear
+  const codeSymbols = [
+    { symbol: "</>", top: "10%", left: "5%", size: "text-2xl", delay: 0 },
+    { symbol: "+=", top: "35%", left: "30%", size: "text-2xl", delay: 0.25},
+    { symbol: "\" \"", top: "28%", right: "30%", size: "text-2xl", delay: 0.25},
+    { symbol: "{}", top: "70%", left: "8%", size: "text-3xl", delay: 0.5 },
+    { symbol: "( )", top: "20%", right: "6%", size: "text-4xl", delay: 1.2 },
+    { symbol: "[]", top: "60%", right: "10%", size: "text-2xl", delay: 0.8 },
+    { symbol: ";", bottom: "15%", left: "15%", size: "text-5xl", delay: 1.5 },
+    { symbol: "==", bottom: "25%", right: "15%", size: "text-3xl", delay: 0.3 },
+  ];
+
   return (
     <section className="relative py-10 sm:py-16 md:py-20 bg-gradient-to-br from-blue-50 to-blue-100 overflow-hidden">
+      {codeSymbols.map((symbol, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={isVisible ? {
+            opacity: [0, 0.7, 0],
+            scale: [0, 1, 0.8],
+            x: [0, Math.random() * 30 - 15],
+            y: [0, Math.random() * 30 - 15]
+          } : {}}
+          transition={{
+            duration: 5,
+            delay: symbol.delay,
+            repeat: Infinity,
+            repeatType: "reverse"
+          }}
+          className={`absolute ${symbol.size} text-[#1976D2] font-mono`}
+          style={{
+            top: symbol.top,
+            left: symbol.left,
+            right: symbol.right,
+            bottom: symbol.bottom
+          }}
+        >
+          {symbol.symbol}
+        </motion.div>
+      ))}
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center">
           <motion.div
