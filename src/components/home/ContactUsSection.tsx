@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaInstagram, FaFacebook, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
+import { FaInstagram, FaWhatsapp } from 'react-icons/fa';
 
 interface ContactUsSectionProps {
   id?: string;
@@ -142,12 +142,6 @@ const ContactUsSection: React.FC<ContactUsSectionProps> = ({ id }) => {
             </a>
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-indigo-600 transition duration-300">
                 <FaInstagram className="w-10 h-10" />
-            </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-indigo-600 transition duration-300">
-                <FaFacebook className="w-10 h-10" />
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-indigo-600 transition duration-300">
-                <FaLinkedin className="w-10 h-10" />
             </a>
         </motion.div>
     </section>
