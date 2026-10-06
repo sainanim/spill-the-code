@@ -15,9 +15,17 @@ interface EventItem {
 }
 
 /**
- * To post a new event: drop the flyer image into /public/events/ and add an
+ * To post a new event: drop the flyer image into /public/events/ and add an EventItem to the array below
  */
 const events: EventItem[] = [
+  {
+    flyer: "/events/toastmasters.jpeg",
+    name: "Weekly Toastmasters Club",
+    date: "Every Sunday",
+    time: "2 - 3:00 PM",
+    location: "Spill the Code, Erin Mills town Centre",
+    description: "Join our kids' Toastmasters club at Spill The Code, where young speakers aged 6–18 build confidence, sharpen their communication skills, and learn to share their ideas in a fun, supportive space!",
+  },
   {
     flyer: "/events/mom_baby_workshop.jpeg",
     name: "Mom & Baby Sensory Play & Art Workshop",
