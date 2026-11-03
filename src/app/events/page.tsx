@@ -27,13 +27,21 @@ const events: EventItem[] = [
     description: "Join our kids' Toastmasters club at Spill The Code, where young speakers aged 6–18 build confidence, sharpen their communication skills, and learn to share their ideas in a fun, supportive space!",
   },
   {
-    flyer: "/events/mom_baby_workshop.jpeg",
-    name: "Mom & Baby Sensory Play & Art Workshop",
-    date: "October 25, 2026",
-    time: "11 AM onwards",
+    flyer: "/events/FLL.png",
+    name: "First Lego League Robotics",
+    date: "Practice twice a week",
+    time: "Reach out for timings",
     location: "Spill the Code, Erin Mills town Centre",
-    description: "Spend quality time together exploring sensory play, creativity, and simple art activities in a safe & playful environment.",
+    description: "Elementary-age teams build and code LEGO robots to complete missions on a themed game table, alongside a research-based innovation project. Teams compete at qualifying tournaments across Ontario to earn a spot at the provincial championship."
   },
+  {
+    flyer: "/events/FRC.png",
+    name: "First Robotics Competition",
+    date: "Practice twice a week",
+    time: "Reach out for timings",
+    location: "Spill the Code, Erin Mills town Centre",
+    description: "High school teams design and build large competition robots to play a new game revealed each January. They compete at district events across Ontario to earn a place at the Provincial Championship, with a chance to advance to the World Championship in Houston."
+  }
 ];
 
 export default function EventsPage() {
