@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Bot, Sparkles } from "lucide-react";
-import { FaFutbol } from "react-icons/fa";
 import { scrollToHash } from "@/components/HashLink";
 
 const HeroSection = () => {

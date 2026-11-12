@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+CLAUDE.md
 
 # debug
 npm-debug.log*
@@ -43,3 +44,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+
+# Google service account keys
+credentials.json

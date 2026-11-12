@@ -55,6 +55,7 @@ const Header = () => {
     // { name: 'Summer Camps', href: '/summer-camps' }, // hidden for now
     { name: 'Shop', href: '/shop'},
     { name: 'Events', href: '/events' },
+    { name: 'Attendance', href: '/attendance' },
     { name: 'Contact Us', href: '/#contact-us' }
   ];
   return (
